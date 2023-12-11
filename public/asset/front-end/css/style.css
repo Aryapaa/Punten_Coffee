@@ -1,0 +1,93 @@
+body{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+div{
+    display: block;
+}
+
+.navbar-brand{
+    font-size: 32px;
+}
+
+.nav-link{
+    color: black;
+}
+
+.c-item{
+    height: 50vh;
+}
+
+.c-img{
+    height: 100%;
+    object-fit: cover;
+}
+
+.section-relative{
+    position: relative;
+    z-index: 1;
+}
+
+.content {
+    padding-top: 20px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.content{
+    width: 100%;
+    height: 100%;
+}
+
+.content .content-body{
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.content-food a{
+    text-decoration: none;
+}
+
+.photo-menu{
+    width: 12rem;
+    height: 12rem;
+    object-fit: cover;
+    background-size: cover;
+}
+
+@media (min-width: 992px) {
+    .nav-link{
+        text-transform: uppercase;
+        margin-left: 30px;
+    }
+
+    .c-item{
+        height: 70vh;
+    }
+
+    .reserv-body{
+        padding-left: 10rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .content{
+        padding-top: 70px;
+        padding-bottom: 70px;
+        text-align: left;
+    }
+
+    #beverages .row{
+        text-align: right;
+    }
+}
