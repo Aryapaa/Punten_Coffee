@@ -175,7 +175,7 @@
         <h3 class="mb-4"><b>NON COFFEE</b></h3>
         <div class="row flex-row-reverse d-flex justify-content-between">
           <div class="col-12 col-md-6 col-lg-5">
-            <img class="rounded img-fluid mb-3" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="{{url('asset/front-end/img/strawpin.png')}}" alt="Gambar Baverages" />
+            <img class="rounded img-fluid mb-3" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="{{url('asset/front-end/img/strawprin.png')}}" alt="Gambar Baverages" />
             <div class="d-flex justify-content-between align-items-center">
               <h5>Strawberry Princess</h5>
               <h4><b>23</b></h4>
@@ -219,7 +219,7 @@
         </div>
         <div class="row d-flex justify-content-between">
           <div class="col-12 col-md-6 col-lg-5">
-            <img class="rounded img-fluid mb-3" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="a{{url('asset/front-end/img/red velvet.png')}}" alt="Gambar Baverages" />
+            <img class="rounded img-fluid mb-3" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="{{url('asset/front-end/img/red.png')}}" alt="Gambar Baverages" />
             <div class="d-flex justify-content-between align-items-center">
               <h5>Red Velvet</h5>
               <h4><b>25</b></h4>
