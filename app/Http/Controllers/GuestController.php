@@ -28,4 +28,10 @@ class GuestController extends Controller
     public function reservation(){
         return view('pages.reservation');
     }
+
+    public function menu(){
+        $items = Item::all();
+
+        return view('pages/foods', compact('items'));
+    }
 }
