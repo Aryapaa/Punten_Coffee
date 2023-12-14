@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/a', [GuestController:: class, 'index'])->name('home');
-Route::get('/', [GuestController:: class, 'menu']);
+Route::get('/', [GuestController:: class, 'index'])->name('home');
+// Route::get('/', [GuestController:: class, 'menu']);
 
 Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
 Route::get('/menu/foods', [GuestController:: class, 'foods'])->name('pages.menu_foods');
 Route::get('/reservation', [GuestController:: class, 'reservation'])->name('pages.reservation');
+Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
