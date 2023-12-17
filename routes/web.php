@@ -19,6 +19,6 @@ Route::get('/', [GuestController:: class, 'index'])->name('home');
 // Route::get('/', [GuestController:: class, 'menu']);
 
 Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
-Route::get('/menu/foods', [GuestController:: class, 'menu'])->name('pages.menu_foods');
+Route::get('/menu/foods', [GuestController:: class, 'foods'])->name('pages.menu_foods');
 Route::get('/reservation', [GuestController:: class, 'reservation'])->name('pages.reservation');
 Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
