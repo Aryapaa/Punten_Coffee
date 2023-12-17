@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Subcategory;
 
 class GuestController extends Controller
 {
@@ -30,8 +32,8 @@ class GuestController extends Controller
     }
 
     public function menu(){
-        $items = Item::all();
-
-        return view('pages/foods', compact('items'));
+        $subcategories = Subcategory::where('category_id', 2)->get();
+        $items = Item::where('subcategory_id', 5)->get();
+        return view('pages/foods')->with('items', $items)->with('subcategories', $subcategories);
     }
 }

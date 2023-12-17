@@ -29,8 +29,10 @@
         </section>
 
         <section class="col-12 col-lg-8">
-            @if($items->count())
-            <div class="row d-flex justify-content-between">
+            @if($subcategories->count())
+            @foreach($subcategories as $subcategory)
+            <h3>{{$subcategory->name}}</h3>
+            <div class="row d-flex justify-content-between d-grid gap-3">
                 @foreach($items as $item)
                 <div class="col-12 col-md-6 col-lg-5">
                     <img class="rounded img-fluid mb-2" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="/asset/front-end/img/{{$item->photo}}" alt="{{$item->photo}}">
@@ -41,6 +43,7 @@
                 </div>
                 @endforeach
             </div>
+            @endforeach
             @endif
 
             <!-- <div class="p-5 container-lg" id="foods">

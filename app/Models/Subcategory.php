@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Subcategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'items';
+    protected $table = 'subcategories';
 
     protected $fillable = [
         'id',
         'name',
-        'price',
-        'stock',
-        'photo',
-        'subcategory_id',
+        'category_id',
         'created_at',
         'updated_at'
     ];

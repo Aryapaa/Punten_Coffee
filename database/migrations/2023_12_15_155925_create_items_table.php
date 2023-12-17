@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('price');
-            $table->string('subcategory');
             $table->integer('stock');
             $table->string('photo');
+            $table->unsignedBigInteger('subcategory_id');
             $table->timestamps();
+
+            $table->foreign('subcategory_id')->references('id')->on('subcategories');
         });
     }
 
