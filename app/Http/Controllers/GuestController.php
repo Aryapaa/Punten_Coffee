@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Reservations;
 use App\Models\Subcategory;
 
 class GuestController extends Controller
@@ -32,8 +33,19 @@ class GuestController extends Controller
     }
 
     public function menu(){
-        $subcategories = Subcategory::where('category_id', 2)->get();
+        $subcategories = Subcategory::where('category_id', 1)->get();
         $items = Item::where('subcategory_id', 5)->get();
+        // if($subcategories->category_id == 2){
+        //     $items = Item::where()
+        // }
         return view('pages/foods')->with('items', $items)->with('subcategories', $subcategories);
+    }
+
+    public function addReservation(Request $request){
+        $data = $request->all();
+
+        Reservations::create([
+
+        ]);
     }
 }

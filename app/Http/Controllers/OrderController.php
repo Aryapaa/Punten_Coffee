@@ -11,4 +11,14 @@ class OrderController extends Controller
 
         return view('pages/ordermenu', compact('items'));
     }
+
+    public function increaseQuantity(int $id){
+        $items = Item::get($id);
+        $qty = $items->qty + 1;
+    }
+
+    public function cart(){
+
+        return view('pages/cart');
+    }
 }

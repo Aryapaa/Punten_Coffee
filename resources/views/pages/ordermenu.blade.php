@@ -1,4 +1,4 @@
-@extends('layouts.layoutwonavbar')
+@extends('layouts.navbarorder')
 
 @section('content')
 
@@ -29,7 +29,7 @@
 <section>
     @if($items->count())
     <div class="menublack mx-2 my-2">
-        <h3 id="menublack"><b>Black</b></h3>
+        <!-- <h3 id="menublack"><b>Black</b></h3> -->
 
         @foreach($items as $item)
 
@@ -38,11 +38,12 @@
             <div class="card-body">
                 <h5 class="card-title">{{$item->name}}</h5>
                 <h4><b>{{$item->price}}</b></h4>
+                <!-- <button type="button" class="btn "><i class="fa fa-minus"></i></button>
+                <input type="text" class="w-25" value="1">
+                <button type="button" class="btn"><i class="fa fa-plus"></i></button> -->
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
-                    </svg>
+                    <i class="fa fa-plus"></i>
                 </button>
 
                 <!-- Modal -->
@@ -55,12 +56,16 @@
                             </div>
                             <div class="modal-body">
                                 <img src="/asset/front-end/img/{{$item->photo}}" class="rounded img-fluid w-75" alt="{{$item->photo}}" style="aspect-ratio: 1 / 1; object-fit: cover; height: 100%">
-                                <h5 class="card-title">{{$item->name}}</h5>
+                                <h5 class="card-title mt-3">{{$item->name}}</h5>
                                 <h4><b>{{$item->price}}</b></h4>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <form action="" method="POST">
+                                    <button type="button" class="btn "><i class="fa fa-minus"></i></button>
+                                    <input type="text" class="w-25" value="1">
+                                    <button type="button" class="btn"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </form>
                             </div>
                         </div>
                     </div>
