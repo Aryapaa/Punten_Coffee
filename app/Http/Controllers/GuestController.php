@@ -32,14 +32,14 @@ class GuestController extends Controller
         return view('pages.reservation');
     }
 
-    public function menu(){
-        $subcategories = Subcategory::where('category_id', 1)->get();
-        $items = Item::where('subcategory_id', 5)->get();
+    // public function menu(){
+    //     $subcategories = Subcategory::where('category_id', 1)->get();
+    //     $items = Item::where('subcategory_id', 5)->get();
         // if($subcategories->category_id == 2){
         //     $items = Item::where()
         // }
-        return view('pages/foods')->with('items', $items)->with('subcategories', $subcategories);
-    }
+    //     return view('pages/foods')->with('items', $items)->with('subcategories', $subcategories);
+    // }
 
     public function addReservation(Request $request){
         $data = $request->all();
