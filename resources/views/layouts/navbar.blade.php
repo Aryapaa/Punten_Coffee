@@ -11,7 +11,7 @@
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('pages.menu_foods') }}">Foods & Snacks</a></li>
+                        <li><a class="dropdown-item" href="{{ route('pages.menu',1) }}">Foods & Snacks</a></li>
                         <li><a class="dropdown-item" href="{{ route('pages.menu_beverages') }}">Beverages</a></li>
                     </ul>
                 </div>
