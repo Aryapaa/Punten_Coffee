@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('total_amount');
             $table->integer('total_payment_method');
             $table->timestamps();
+
+            $table->foreign('order_number')->references('id')->on('order_detail');
         });
     }
 

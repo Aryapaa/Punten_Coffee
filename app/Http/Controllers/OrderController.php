@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Item;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,9 +13,16 @@ class OrderController extends Controller
         return view('pages/ordermenu', compact('items'));
     }
 
-    public function increaseQuantity(int $id){
-        $items = Item::get($id);
+    public function increaseQuantity($id){
+        $items = Order::instance('order')->get($id);
         $qty = $items->qty + 1;
+        Order::instance('order')->update($id, $qty);
+    }
+
+    public function decreaseQuantity($id){
+        $items = Order::instance('order')->get($id);
+        $qty = $items->qty - 1;
+        Order::instance('order')->update($id, $qty);
     }
 
     public function cart(){

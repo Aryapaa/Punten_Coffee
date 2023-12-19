@@ -60,12 +60,16 @@
                                 <h4><b>{{$item->price}}</b></h4>
                             </div>
                             <div class="modal-footer">
-                                <form action="" method="POST">
-                                    <button type="button" class="btn "><i class="fa fa-minus"></i></button>
-                                    <input type="text" class="w-25" value="1">
-                                    <button type="button" class="btn"><i class="fa fa-plus"></i></button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </form>
+                                    <form id="quantityForm{{ $item->id }}">
+                                        <button type="button" class="btn" onclick="decreaseQuantity('{{ $item->id }}')">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <input type="text" class="w-25" id="quantityInput{{ $item->id }}" value="{{ $item->qty }}">
+                                        <button type="button" class="btn" onclick="increaseQuantity('{{ $item->id }}')">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="saveChanges('{{ $item->id }}')">Save changes</button>
+                                    </form>
                             </div>
                         </div>
                     </div>
@@ -76,3 +80,31 @@
         @endif
 </section>
 @endsection
+
+<script>
+    function decreaseQuantity(itemId) {
+        var quantityInput = document.getElementById('quantityInput' + itemId);
+        var currentQuantity = parseInt(quantityInput.value);
+
+        if (!isNaN(currentQuantity) && currentQuantity > 0) {
+            quantityInput.value = currentQuantity - 1;
+        }
+    }
+
+    function increaseQuantity(itemId) {
+        var quantityInput = document.getElementById('quantityInput' + itemId);
+        var currentQuantity = parseInt(quantityInput.value);
+
+        if (!isNaN(currentQuantity)) {
+            quantityInput.value = currentQuantity + 1;
+        }
+    }
+
+    function saveChanges(itemId) {
+        var quantityInput = document.getElementById('quantityInput' + itemId);
+        var newQuantity = quantityInput.value;
+
+        // Add your logic to save the changes (e.g., AJAX request or form submission)
+        console.log('Saving changes for item ' + itemId + '. New Quantity: ' + newQuantity);
+    }
+</script>
