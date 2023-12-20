@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Payment extends Model
 {
     use HasFactory;
 
-    protected $table = 'items';
+    protected $table = 'payments';
 
     protected $fillable = [
         'id',
@@ -21,6 +21,4 @@ class Item extends Model
         'created_at',
         'updated_at'
     ];
-
-    
 }

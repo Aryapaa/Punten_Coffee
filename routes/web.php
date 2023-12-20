@@ -20,6 +20,10 @@ Route::get('/', [GuestController:: class, 'index'])->name('home');
 
 Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
 Route::get('/menu/foods', [GuestController:: class, 'foods'])->name('pages.menu_foods');
+Route::get('/menu/{category}', [GuestController:: class, 'menu'])->name('menu');
 Route::get('/reservation', [GuestController:: class, 'reservation'])->name('pages.reservation');
 Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
-Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
+// Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
+
+Route::get('/checkout', [OrderController::class, 'checkout']);
+Route::post('/midtrans-callback', [OrderController::class, 'callback']);
