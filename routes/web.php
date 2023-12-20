@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,3 +35,8 @@ Route::post('/payment-process', [OrderController::class, 'paymentProcess']);
 
 Route::get('/qris/{totalAmount}', [OrderController::class, 'qris']);
 Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
+
+Route::get('/login', [AdminController:: class, 'login'])->name('login');
+Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
