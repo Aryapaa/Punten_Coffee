@@ -21,4 +21,8 @@ class Item extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function subcategory(){
+        return $this->belongTo(Subcategory::class, 'subcategory_id');
+    }
 }

@@ -32,15 +32,9 @@ class GuestController extends Controller
         return view('pages.reservation');
     }
 
-    public function menu(String $id){
-        // Assuming $id represents the category_id
-        $subcategories = Subcategory::where('category_id', $id)->get();
-    
-        // Assuming you want to retrieve items for the first subcategory (you can modify this logic based on your requirements)
-        $firstSubcategory = $subcategories->first();
-        $items = $firstSubcategory ? Item::where('subcategory_id', $firstSubcategory->id)->get() : collect();
-    
-        return view('pages.menus')->with('items', $items)->with('subcategories', $subcategories);
+    public function menu($categoryid){
+        $category = Category::find($categoryid);
+        return view('pages/menus', compact('category'));
     }
     
 

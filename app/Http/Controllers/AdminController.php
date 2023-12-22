@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Item;
+use App\Models\Subcategory;
 
 class AdminController extends Controller
 {
@@ -31,4 +33,10 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error','email atau password salah');
         }
     }  
+
+    public function showItems(){
+        $subcategory = Subcategory::find(5);
+        dd($subcategory->items);
+        return view('admin.menu_admin', compact('items', 'subcategory'));
+    }
 }

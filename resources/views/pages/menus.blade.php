@@ -1,4 +1,4 @@
-@extends('layouts.layoutwonavbar')
+@extends('layouts.layout')
 
 @section('content')
 
@@ -6,7 +6,7 @@
     <section class="d-lg-none topbar">
         <div>
             <ul class="d-flex align-items-center py-3" style="overflow-x: auto">
-                @foreach($subcategories as $subcategory)
+                @foreach($category->subCategory as $subcategory)
                     <li class="rounded px-2 py-1"><a href="#{{ $subcategory->name }}">{{ $subcategory->name }}</a></li>
                 @endforeach
             </ul>
@@ -17,7 +17,7 @@
         <section class="sidebar col-lg-4 d-none d-lg-block">
             <div class="mt-5">
                 <ul>
-                    @foreach($subcategories as $subcategory)
+                    @foreach($category->subCategory as $subcategory)
                         <li><a href="#{{ $subcategory->name }}">{{ $subcategory->name }}</a></li>
                     @endforeach
                 </ul>
@@ -25,11 +25,10 @@
         </section>
 
         <section class="col-12 col-lg-8">
-            @if($subcategories->count())
-                @foreach($subcategories as $subcategory)
+                @foreach($category->subCategory as $subcategory)
                     <h3 id="{{ $subcategory->name }}">{{ $subcategory->name }}</h3>
                     <div class="row d-flex justify-content-between d-grid gap-3">
-                        @foreach($items->where('subcategory_id', $subcategory->id) as $item)
+                        @foreach($subcategory->items as $item)
                             <div class="col-12 col-md-6 col-lg-5">
                                 <img class="rounded img-fluid mb-2" style="aspect-ratio: 1 / 1; object-fit: cover; width: 100%" src="/asset/front-end/img/{{ $item->photo }}" alt="{{ $item->photo }}">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -40,7 +39,6 @@
                         @endforeach
                     </div>
                 @endforeach
-            @endif
         </section>
     </div>
 </main>

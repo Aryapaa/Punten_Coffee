@@ -26,5 +26,6 @@ Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu'
 Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
 Route::get('/login', [AdminController:: class, 'login'])->name('login');
 Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
+Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
