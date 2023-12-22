@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+@extends('layouts.layout')
 
 @section('content')
 
@@ -42,5 +43,7 @@
         </section>
     </div>
 </main>
+
+@include('layouts.footer')
 
 @endsection

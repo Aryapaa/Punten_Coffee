@@ -2,35 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
 
 class AdminController extends Controller
 {
-    //
-    public function login(){
-
+    public function login()
+    {
         return view('auth.login');
     }
-    public function login_proses(Request $request){
+
+    public function login_proses(Request $request)
+    {
         $request->validate([
-            'email'=> 'required',
-            'password'=> 'required',
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
-        $data = [
-            'email'=> $request->email,
-            'password'=> $request->password
-        ];
+        $user = User::where('username', $request->username)->first();
 
-        if(Auth::attempt($data)){
-            return redirect()->route('dashboard');
-        }else{
-            return redirect()->route('login')->with('error','email atau password salah');
+        if ($user) {
+            if ($request->password === $user->password) {
+                // Password cocok, lakukan logika sesuai kebutuhan Anda di sini
+                // Misalnya, atur sesi pengguna atau tindakan lainnya
+                // Contoh:
+                // session(['authenticated' => true]);
+                return redirect('/dashboard');
+            } else {
+                return redirect()->route('home')->with('error', 'Password is incorrect');
+            }
+        } else {
+            return redirect()->route('home')->with('error', 'User not found');
         }
     }  
 

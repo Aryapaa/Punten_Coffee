@@ -25,4 +25,6 @@ class Item extends Model
     public function subcategory(){
         return $this->belongTo(Subcategory::class, 'subcategory_id');
     }
+
+    
 }

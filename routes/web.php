@@ -16,16 +16,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [GuestController:: class, 'index'])->name('home');
+Route::get('/', [GuestController::class, 'index'])->name('home');
 // Route::get('/', [GuestController:: class, 'menu']);
 
-Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
-Route::get('/menu/{id}', [GuestController:: class, 'menu'])->name('pages.menu');
+// Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
+// Route::get('/menu/{id}', [GuestController:: class, 'menu'])->name('pages.menu');
+Route::get('/menu/{category}', [GuestController:: class, 'menu'])->name('menu');
 Route::get('/reservation', [GuestController:: class, 'reservation'])->name('pages.reservation');
-Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
-Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
+// Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
+
+Route::get('/checkout', [OrderController::class, 'checkout']);
+Route::post('/midtrans-callback', [OrderController::class, 'callback']);
+
+// Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
+// Route::get('/suborder/{id_sub_cat}', [OrderController::class, 'order'])->name('pages.ordermenu');
+
+Route::get('/order', [OrderController::class, 'order'])->name('pages.ordermenu');
+Route::get('/order/{id_sub_cat}', [OrderController::class, 'order'])->name('pages.ordermenubysub');
+
+Route::get('/cart', [OrderController::class, 'cart'])->name('pages.cart');
+Route::get('/payment', [OrderController::class, 'payment'])->name('pages.payment');
+Route::post('/payment-process', [OrderController::class, 'paymentProcess']);
+
+Route::get('/qris/{totalAmount}', [OrderController::class, 'qris']);
+Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
+
 Route::get('/login', [AdminController:: class, 'login'])->name('login');
 Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', function () {
+    return view('admin.home_dashboard');
+});

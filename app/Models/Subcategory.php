@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subcategory extends Model
 {
@@ -18,4 +19,9 @@ class Subcategory extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function items() : HasMany
+    {
+        return $this->hasMany(Item::class,'subcategory_id','id');
+    }
 }
