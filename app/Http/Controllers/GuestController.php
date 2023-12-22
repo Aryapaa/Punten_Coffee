@@ -33,15 +33,5 @@ class GuestController extends Controller
     }
 
     public function menu($categoryId){
-        $category = Category::find($categoryId);
-        // dd($category->subCategories);
-        // $subcategory= $category->subCategories;
-        //     foreach($subcategory->items as $item){
-                // dd($subcategory);
-                // $item = $subcategory->items;
-                // dd($item);
-        //     }
-        
-        return view('pages/menus')->with('categories', $category);
     }
 }

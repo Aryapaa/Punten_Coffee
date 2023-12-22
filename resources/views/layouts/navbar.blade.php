@@ -10,9 +10,9 @@
                 <a class="nav-link" href="{{ route('home') }}">Home</a>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('pages.menu_foods') }}">Foods & Snacks</a></li>
-                        <li><a class="dropdown-item" href="{{ route('pages.menu_beverages') }}">Beverages</a></li>
+                    <ul class="dropdown-menu"> 
+                        <li><a class="dropdown-item" href="{{ route('menu'}}">Foods & Snacks</a></li>
+                        <li><a class="dropdown-item" href="{{ route('menu'}}">Beverages</a></li>
                     </ul>
                 </div>
                 <a class="nav-link" href="{{ route('pages.reservation') }}">Reservation</a>
