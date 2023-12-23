@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -18,14 +19,14 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'username' => 'required',
             'password' => 'required',
         ]);
 
-        $email = User::where('email', $request->email)->first();
+        $user = User::where('username', $request->username)->first();
 
-        if ($email) {
-            if ($request->password === $email->password) {
+        if ($user) {
+            if ($request->password === $user->password) {
                 // Password cocok, lakukan logika sesuai kebutuhan Anda di sini
                 // Misalnya, atur sesi pengguna atau tindakan lainnya
                 // Contoh:
@@ -47,20 +48,41 @@ class AdminController extends Controller
 
     public function create_menu()
     {
-        return view('admin.menu.create');
+        $subcategories = Subcategory::all();
+        return view('admin.menu.create', compact('subcategories'));
     }
 
+    public function create_user()
+    {
+        return view('admin.user.create');
+    }
     public function store(Request $request)
     {
-        $input = $request->all();
-        Item::create($input);
-        return redirect('/admin/menu')->with('flash_message', 'Item Added!');
->>>>>>> 556d5858a1e155efcdecf3c3f78c3aa0ae98335c
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        //save ke database
+        User::create([
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect('admin/user');
     }
 
     public function showUser()
     {
-        // $subcategory = ;
+        $user = user::all();
         return view('admin.user_admin', compact('user'));
     }
+
+    public function destroy(string $id)
+    {
+        $user->delete();
+
+        return redirect('/admin/user'); 
+    }
+
 }

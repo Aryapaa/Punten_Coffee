@@ -1,37 +1,45 @@
-@extends('admin.main')
+@extends('layouts.layoutwonavbar')
 
 @section('content')
 
-<section id="list">
+  <section id="list">
     <div class="container">
-      <a href="" class ="btn btn-sm" title = "Add User" style = "background-color: #8B0C0C ; color : #FFFFFF">Add user</a>
+      <a href="{{ url('/admin/user/create') }}" class ="btn btn-sm mt-3" title = "Add User" style = "background-color: #8B0C0C ; color : #FFFFFF"><i class = " fa fa-plus-circle px-1"></i>Add User</a>
       @if (count($user) > 0)
         <div class="table-responsive">
           <table class="table-striped table">
             <thead>
               <tr>
-                <th>No</th>
-                <th>username</th>
-                <th>password</th>
+                <th>id</th>
+                <th>Email</th>
+                <th>Password</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($user as $user)
                 <tr>
                   <td>{{ $user->id}}</td>
-                  <td>{{ $user->username}}</td>
+                  <td>{{ $user->email}}</td>
                   <td>{{ $user->password}}</td>
+                  <td>
+                    <a href="update.blade.php"><button class = "btn btn-primary btn-sm mb-1"><i class = "fa fa-pencil-square-o px-1"></i>Edit</button></a>
+                    <form action="{{route ('admin.delete', ['id' => $user->id])}}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Anda yakin ingin menghapus data ?')"><i class = "fa fa-trash-o px-1"></i>Delete</button>
+                    </form>
+                        <!-- <a href="update.blade.php"><button class = "btn btn-danger"><i class = "fa fa-trash-o px-1"></i>Delete</button></a> -->
+                  </td>
                 </tr>
               @endforeach
             </tbody>
           </table>
         </div>
       @else
-        <p>Tidak ada mobil di showroom ini.</p>
+        <p>Tidak ada data user</p>
       @endif
     </div>
   </section>
 
-
-
-@endsection
+  @endsection

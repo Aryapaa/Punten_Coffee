@@ -47,8 +47,11 @@ Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.m
 Route::get('/admin/user', [AdminController:: class, 'showUser'])->name('admin.user_admin');
 
 Route::get('/admin/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
+Route::get('/admin/user/create', [AdminController:: class, 'create_user'])->name('admin.user.create');
 Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
 Route::get('/admin/update', [AdminController:: class, ''])->name('admin.update');
+Route::get('/admin/delete', [AdminController:: class, ''])->name('admin.delete');
+
 
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');

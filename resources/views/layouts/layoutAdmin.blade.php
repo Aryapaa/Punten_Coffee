@@ -35,7 +35,19 @@
 </head>
 
 <body class="skin-blue">
-    @yield('content')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+     <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+
+            @include('partials.navbar')
+            @include('partials.sidebar')
+
+            <!-- Main Content -->
+            <div class="main-content">
+                @yield('content')
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
