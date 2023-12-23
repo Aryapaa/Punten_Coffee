@@ -44,6 +44,7 @@ Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
 Route::get('/login', [AdminController:: class, 'login'])->name('login');
 Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
+Route::get('/admin/user', [AdminController:: class, 'showUser'])->name('admin.user_admin');
 
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');

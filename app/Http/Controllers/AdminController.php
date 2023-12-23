@@ -18,30 +18,36 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $email = User::where('email', $request->email)->first();
 
-        if ($user) {
-            if ($request->password === $user->password) {
+        if ($email) {
+            if ($request->password === $email->password) {
                 // Password cocok, lakukan logika sesuai kebutuhan Anda di sini
                 // Misalnya, atur sesi pengguna atau tindakan lainnya
                 // Contoh:
                 // session(['authenticated' => true]);
                 return redirect('/dashboard');
             } else {
-                return redirect()->route('home')->with('error', 'Password is incorrect');
+                return redirect()->route('login')->with('error', 'Password is incorrect');
             }
         } else {
-            return redirect()->route('home')->with('error', 'User not found');
+            return redirect()->route('login')->with('error', 'User not found');
         }
     }  
 
     public function showItems(){
         $subcategory = Subcategory::find(5);
-        dd($subcategory->items);
+        ($subcategory->items);
         return view('admin.menu_admin', compact('items', 'subcategory'));
+    }
+
+    public function showUser()
+    {
+        // $subcategory = ;
+        return view('admin.user_admin', compact('user'));
     }
 }
