@@ -28,7 +28,8 @@ class GuestController extends Controller
         return view('home');
     }
 
-    public function reservation(){
+    public function create_reservations()
+    {
         return view('pages.reservation');
     }
 
@@ -38,11 +39,10 @@ class GuestController extends Controller
     }
     
 
-    public function addReservation(Request $request){
-        $data = $request->all();
-
-        Reservations::create([
-
-        ]);
+    public function storeReservation(Request $request)
+    {
+        $input = $request->all();
+        Reservation::create($input);
+        return redirect()->route('storeReservation');
     }
 }

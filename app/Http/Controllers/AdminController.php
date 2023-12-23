@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
+use App\Models\Reservation;
 
 class AdminController extends Controller
 {
@@ -39,7 +40,20 @@ class AdminController extends Controller
         }
     }  
 
+    public function showReservations(){
+        $reservation = Reservation::all();
+        return view('pages.reserve_adm', compact('reservation'));
+    }
 
+    public function update_reservations() {
+
+    }
+
+    public function delete_reservations() {
+
+    }
+
+    
     public function showItems(){
         $items = Item::all();
         return view('admin.menu_admin', compact('items'));
