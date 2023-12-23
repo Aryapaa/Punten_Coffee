@@ -46,6 +46,10 @@ Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('l
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 Route::get('/admin/user', [AdminController:: class, 'showUser'])->name('admin.user_admin');
 
+Route::get('/admin/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::get('/admin/update', [AdminController:: class, ''])->name('admin.update');
+
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');
 });

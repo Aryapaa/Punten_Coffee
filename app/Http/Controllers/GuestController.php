@@ -32,8 +32,8 @@ class GuestController extends Controller
         return view('pages.reservation');
     }
 
-    public function menu($categoryid){
-        $category = Category::find($categoryid);
+    public function menu($categoryId){
+        $category = Category::find($categoryId);
         return view('pages/menus', compact('category'));
     }
     

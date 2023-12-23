@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Item extends Model
 {
@@ -23,7 +24,7 @@ class Item extends Model
     ];
 
     public function subcategory(){
-        return $this->belongTo(Subcategory::class, 'subcategory_id');
+        return $this->belongsTo(Subcategory::class, 'subcategory_id');
     }
 
     
