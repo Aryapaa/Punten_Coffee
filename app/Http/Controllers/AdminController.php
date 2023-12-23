@@ -50,14 +50,80 @@ class AdminController extends Controller
     {
         $subcategories = Subcategory::all();
         return view('admin.menu.create', compact('subcategories'));
+        $subcategories = Subcategory::all();
+        return view('admin.menu.create', compact('subcategories'));
     }
 
-    public function create_user()
-    {
-        return view('admin.user.create');
-    }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'subcategory_id' => 'required',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $photo = time() .'-' .$request->photo->getClientOriginalName();
+            $request->photo->move('asset/front-end/img', $photo);
+        
+        //save ke database
+        Item::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'subcategory_id' => $request->subcategory_id,
+            'photo' => $photo,
+        ]);
+
+        return redirect('/admin/menu');
+    }
+
+    public function edit_menu(string $id)
+    {
+        $items = Item::select('*')->whereId($id)->firstOrFail();
+        $subcategories = Subcategory::all();
+        return view('admin.menu.update', compact('items', 'subcategories'));
+    }
+
+    public function update_menu(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'subcategory_id' => 'required',
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'subcategory_id' => $request->subcategory_id,
+        ];
+
+        $item = Item::select('photo', 'id')->whereId($id)->first();
+        if ($request->photo) {
+            File::delete('asset/front-end/img/' .$item->photo);
+
+            $photo = time() . '-' . $request->photo->getClientOriginalName();
+            $request->photo->move('asset/front-end/img', $photo);
+
+            $data['photo'] = $photo;
+        }
+
+        $item->update($data);
+
+        return redirect('/admin/menu');
+    }
+
+    public function destroy_menu(string $id)
+    {
+        $item = Item::select('id')->whereId($id)->first();
+        $item->delete();
+
+        return redirect('/admin/menu'); 
+    }
         $request->validate([
             'email' => 'required',
             'password' => 'required',
