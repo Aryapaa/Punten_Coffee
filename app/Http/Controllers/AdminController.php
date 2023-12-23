@@ -39,9 +39,21 @@ class AdminController extends Controller
         }
     }  
 
+
     public function showItems(){
-        $subcategory = Subcategory::find(5);
-        dd($subcategory->items);
-        return view('admin.menu_admin', compact('items', 'subcategory'));
+        $items = Item::all();
+        return view('admin.menu_admin', compact('items'));
+    }
+
+    public function create_menu()
+    {
+        return view('admin.menu.create');
+    }
+
+    public function store(Request $request)
+    {
+        $input = $request->all();
+        Item::create($input);
+        return redirect('/admin/menu')->with('flash_message', 'Item Added!');
     }
 }

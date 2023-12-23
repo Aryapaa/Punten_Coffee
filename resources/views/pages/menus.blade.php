@@ -1,13 +1,17 @@
 @extends('layouts.layout')
-@extends('layouts.layout')
 
 @section('content')
+
+<!-- <section class="header">
+  <img src="Beverages.png" alt="Gambar Baverages" width="100%" />
+  <img class="w-100 c-img" src="{{url('asset/front-end/img/Beverages.png')}}" alt="Gambar Baverages" />
+</section> -->
 
 <main>
     <section class="d-lg-none topbar">
         <div>
             <ul class="d-flex align-items-center py-3" style="overflow-x: auto">
-                @foreach($category->subCategory as $subcategory)
+                @foreach($category->subCategories as $subcategory)
                     <li class="rounded px-2 py-1"><a href="#{{ $subcategory->name }}">{{ $subcategory->name }}</a></li>
                 @endforeach
             </ul>
@@ -18,7 +22,7 @@
         <section class="sidebar col-lg-4 d-none d-lg-block">
             <div class="mt-5">
                 <ul>
-                    @foreach($category->subCategory as $subcategory)
+                    @foreach($category->subCategories as $subcategory)
                         <li><a href="#{{ $subcategory->name }}">{{ $subcategory->name }}</a></li>
                     @endforeach
                 </ul>
@@ -26,7 +30,7 @@
         </section>
 
         <section class="col-12 col-lg-8">
-                @foreach($category->subCategory as $subcategory)
+                @foreach($category->subCategories as $subcategory)
                     <h3 id="{{ $subcategory->name }}">{{ $subcategory->name }}</h3>
                     <div class="row d-flex justify-content-between d-grid gap-3">
                         @foreach($subcategory->items as $item)
