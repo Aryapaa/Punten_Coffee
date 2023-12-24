@@ -21,7 +21,7 @@ class GuestController extends Controller
     }
 
     public function foods(){
-        return view('pages.menu_foods');
+        return view('pages.menus');
     }
 
     public function index(){
@@ -32,14 +32,11 @@ class GuestController extends Controller
         return view('pages.reservation');
     }
 
-    // public function menu(){
-    //     $subcategories = Subcategory::where('category_id', 1)->get();
-    //     $items = Item::where('subcategory_id', 5)->get();
-        // if($subcategories->category_id == 2){
-        //     $items = Item::where()
-        // }
-    //     return view('pages/foods')->with('items', $items)->with('subcategories', $subcategories);
-    // }
+    public function menu($categoryId){
+        $category = Category::find($categoryId);
+        return view('pages/menus', compact('category'));
+    }
+    
 
     public function addReservation(Request $request){
         $data = $request->all();

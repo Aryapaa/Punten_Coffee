@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -21,27 +22,52 @@ class OrderController extends Controller
             $items = Item::where('subcategory_id', $id_sub_cat)->get();
         } else {
             $items = Item::all();
-        }
+        };
 
         return view('pages/ordermenu', compact('items','subcategory', 'subcatid'));
     }
 
-    public function increaseQuantity($id){
+    public function increaseQuantity($id)
+    {
         $items = Order::instance('order')->get($id);
         $qty = $items->qty + 1;
         Order::instance('order')->update($id, $qty);
     }
 
-    public function decreaseQuantity($id){
+    public function decreaseQuantity($id)
+    {
         $items = Order::instance('order')->get($id);
         $qty = $items->qty - 1;
         Order::instance('order')->update($id, $qty);
     }
 
     public function cart()
+    
     {
         $items = Item::all();
         return view('pages/cart', ['items' => $items,]);
+    }
+
+    // public function payment()
+    // {
+    //     $items = Item::all();
+    //     return view('pages/payment', ['items' => $items,]);
+    // }
+
+    public function payment(Request $request)
+    {
+        
+    }
+
+    public function callback(Request $request){
+        $serverKey = config('midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+        dd($request);
+        // if($hashed == $request->signature_key){
+        //     if($request->trasaction_status == 'capture'){
+
+        //     }
+        // }
     }
 
     public function paymentProcess(Request $request)
@@ -71,7 +97,7 @@ class OrderController extends Controller
                     'item_name' => $item['item_name'],
                     'item_price' => $item['item_price'],
                     'qty' => $item['qty'],
-                    'order_id' =>$order->id
+                    'id' =>$order->id
                 ]);
 
                 // Update stock in the items table
@@ -81,21 +107,33 @@ class OrderController extends Controller
                 ]);
             }
             
-            return redirect('/payment');
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $order = Order::all();
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $order->order_number,
+                'gross_amount' => $order->total_amount,
+            ),
+            'customer_details' => array(
+                'name' => $order->name,
+                'email' => $order->email
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return redirect('/payment', compact('snapToken'));
+
+            // return redirect('/payment');
     }
-
-    public function payment()
-    {
-        $items = Item::all();
-        return view('pages/payment', ['items' => $items,]);
-    }
-
-    // public function qris($totalAmount)
-    // {
-    //     $totalAmount;
-    //     return view('pages.qris', compact('totalAmount'));
-    // }
-
 
     public function paymentSuccess()
     {

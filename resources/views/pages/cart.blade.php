@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <form action="/payment-process" method="POST">
+    <form action="/payment-process" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="total_order" id="totalOrder" value="">
         <input type="hidden" name="total_amount" id="totalAmount" value="">

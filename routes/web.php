@@ -5,6 +5,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +19,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [GuestController:: class, 'index'])->name('home');
+Route::get('/', [GuestController::class, 'index'])->name('home');
 // Route::get('/', [GuestController:: class, 'menu']);
 
-Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
-Route::get('/menu/foods', [GuestController:: class, 'foods'])->name('pages.menu_foods');
+// Route::get('/menu/beverages', [GuestController:: class, 'beverages'])->name('pages.menu_beverages');
+// Route::get('/menu/{id}', [GuestController:: class, 'menu'])->name('pages.menu');
+Route::get('/menu/{category}', [GuestController:: class, 'menu'])->name('menu');
 Route::get('/reservation', [GuestController:: class, 'reservation'])->name('pages.reservation');
+// Route::post('/cart', [OrderController:: class, 'cart'])->name('pages.cart');
+
+Route::get('/checkout', [OrderController::class, 'checkout']);
+Route::post('/midtrans-callback', [OrderController::class, 'callback']);
 
 // Route::get('/order', [OrderController:: class, 'order'])->name('pages.ordermenu');
 // Route::get('/suborder/{id_sub_cat}', [OrderController::class, 'order'])->name('pages.ordermenu');
@@ -38,39 +44,16 @@ Route::post('/payment-process', [OrderController::class, 'paymentProcess']);
 Route::get('/qris/{totalAmount}', [OrderController::class, 'qris']);
 Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
 
+Route::get('/login', [AdminController:: class, 'login'])->name('login');
+Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
+Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 
-// Handle Auth
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/admin/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
+Route::post('/admin/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
+Route::get('/admin/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
+Route::put('/admin/{id}/update', [AdminController::class, 'update_menu'])->name('admin.menu.update');
+Route::delete('/admin/{id}/delete', [AdminController:: class, 'destroy_menu'])->name('admin.menu.delete');
 
-Route::post('/postlogin', [AuthController::class, 'postlogin'])->name('postlogin');
-Route::match(['get', 'post'], 'logout', [AuthController::class, 'logout'])->name('logout');
-
-
-// halaman Admin
-Route::group(['middleware' => 'auth'],function(){
-
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
-Route::resource('/item', ItemController::class);
-
-Route::get('/order-masuk/{id}/detail', [OrderController::class, 'orderMasukDetail']);
-Route::get('/order-masuk', [OrderController::class, 'orderMasuk']);
-
-Route::get('/order-masuk/{id}/edit', [OrderController::class, 'editOrder']);
-Route::put('/order-masuk/{id}/update', [OrderController::class, 'updateOrder']);
-
-Route::get('/order-masuk/{id}/delete', [OrderController::class, 'deleteOrder'])->name('admin.order.index');
-
-Route::put('/order-masuk/{id}/update-detail', [OrderController::class, 'updateOrderDetail']);
-
-Route::post('/order-masuk/add-item', [OrderController::class, 'addItem'])->name('addItem');
-
-Route::get('/order-masuk/{id}/delete-detail', [OrderController::class, 'deleteOrderDetail'])->name('admin.order.edit');
-
-Route::get('/user/{id}/setting', [AuthController::class, 'setting']);
-Route::patch('/user/{id}/setting', [AuthController::class, 'ubah_password']);
-
-Route::get('/user/{id}/profile', [AuthController::class, 'profile']);
-Route::put('/user/{id}/profile', [AuthController::class, 'ubah_profile']);   
-
+Route::get('/dashboard', function () {
+    return view('admin.home_dashboard');
 });
