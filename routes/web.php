@@ -51,10 +51,12 @@ Route::post('/admin/store', [AdminController::class, 'store_menu'])->name('admin
 Route::get('/admin/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
 Route::put('/admin/{id}/update', [AdminController::class, 'update_menu'])->name('admin.menu.update');
 Route::delete('/admin/{id}/delete', [AdminController:: class, 'destroy_menu'])->name('admin.menu.delete');
+
 Route::get('/admin/user/create', [AdminController:: class, 'create_user'])->name('admin.user.create');
-Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-Route::get('/admin/update', [AdminController:: class, ''])->name('admin.update');
-Route::get('/admin/delete', [AdminController:: class, ''])->name('admin.delete');
+Route::post('/admin/user/store', [AdminController::class, 'store_user'])->name('admin.user.store');
+Route::get('/admin/user/{id}/edit', [AdminController:: class, 'edit_user'])->name('admin.user.edit');
+Route::put('/admin/user/{id}/update', [AdminController:: class, 'update_user'])->name('admin.user.update');
+Route::delete('/admin/user/{id}/delete', [AdminController:: class, 'destroy_user'])->name('admin.user.delete');
 
 
 Route::get('/dashboard', function () {

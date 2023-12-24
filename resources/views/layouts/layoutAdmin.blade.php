@@ -1,77 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Blank Page &mdash; Stisla</title>
-
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
-
-    <!-- CSS Libraries -->
-
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-94034622-3');
-    </script>
-    <!-- /END GA -->
+    <title>Halaman Admin</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link href="../dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css" />
+    <!-- Ionicons -->
+    <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Morris chart -->
+    <link href="../css/morris/morris.css" rel="stylesheet" type="text/css" />
+    <!-- jvectormap -->
+    <link href="../css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <!-- Date Picker -->
+    <link href="../css/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+    <!-- Daterange picker -->
+    <link href="../css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="../css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="../css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="datatables/dataTables.bootstrap.css" />
+    <!-- jsdelivr -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
 </head>
 
-<body>
-    <div id="app">
-        <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
-
-            @include('partials.navbar')
-            @include('partials.sidebar')
-
-            <!-- Main Content -->
-            <div class="main-content">
-                @yield('content')
-            </div>
-        
-    </div>
-
-    <!-- General JS Scripts -->
-    <script src="assets/modules/jquery.min.js"></script>
-    <script src="assets/modules/popper.js"></script>
-    <script src="assets/modules/tooltip.js"></script>
-    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-    <script src="assets/modules/moment.min.js"></script>
-    <script src="assets/js/stisla.js"></script>
-
-    <!-- JS Libraies -->
-
-    <!-- Page Specific JS File -->
-
-    <!-- Template JS File -->
-    <script src="assets/js/scripts.js"></script>
-    <script src="assets/js/custom.js"></script>
-
-            @include('partials.navbar')
-            @include('partials.sidebar')
-
-            <!-- Main Content -->
-            <div class="main-content">
-                @yield('content')
-            </div>
-        </div>
-
-    </div>
+<body class="skin-blue">
+    @yield('content')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
-
 </html>

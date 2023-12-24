@@ -13,6 +13,7 @@
                 <th>id</th>
                 <th>Email</th>
                 <th>Password</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -22,8 +23,8 @@
                   <td>{{ $user->email}}</td>
                   <td>{{ $user->password}}</td>
                   <td>
-                    <a href="update.blade.php"><button class = "btn btn-primary btn-sm mb-1"><i class = "fa fa-pencil-square-o px-1"></i>Edit</button></a>
-                    <form action="{{route ('admin.delete', ['id' => $user->id])}}" method="post">
+                  <a href="{{route ('admin.user.edit', ['id' => $user->id])}}"><button class = "btn btn-primary btn-sm mb-1"><i class = "fa fa-pencil-square-o px-1"></i>Edit</button></a>
+                    <form action="{{route ('admin.user.delete', ['id' => $user->id])}}" method="post">
                         @method('DELETE')
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm"
