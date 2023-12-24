@@ -40,6 +40,52 @@ class AdminController extends Controller
         }
     }  
 
+    public function showReservations(){
+        $reservation = Reservation::all();
+        return view('admin.reserv.reserve_adm', compact('reservation'));
+    }
+
+    public function update_reservations(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required|numeric',
+            'date' => 'required',
+            'time' => 'required',
+            'person(s)' => 'required|numeric', 
+        ]);
+
+        $data_update = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'date' => $request->date,
+            'time' => $request->time,
+            //'person(s)' => $request->person,
+        ];
+
+        $reservation = Reservation::select('id')->whereId($id)->first();
+
+        $reservation->update($data_update);
+
+        return redirect('/admin/reserv/reserve_adm');
+    }
+
+    public function edit_reservation(string $id)
+    {
+        $reservation = Reservation::select('*')->whereId($id)->firstOrFail();
+        return view('admin.reserv.update_reservation', compact('reservation'));
+    }
+
+    public function delete_reservation(string $id)
+    {
+        $reservation = Reservation::select('id')->whereId($id)->first();
+        $reservation->delete();
+
+        return redirect('/admin/reserve_adm'); 
+    }
+
 
     public function showItems(Request $request){
         $katakunci = $request->katakunci;

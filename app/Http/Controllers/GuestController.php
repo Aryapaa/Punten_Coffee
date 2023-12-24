@@ -28,8 +28,32 @@ class GuestController extends Controller
         return view('home');
     }
 
-    public function reservation(){
+    public function create_reservations()
+    {
         return view('pages.reservation');
+    }
+
+    public function store_reservation(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required|numeric',
+            'date' => 'required',
+            'time' => 'required',
+            'person(s)' => 'required|numeric', 
+        ]);
+
+        Reservation::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'date' => $request->date,
+            'time' => $request->time,
+            //'person(s)' => $request->person,
+        ]);
+
+        return redirect('/reserv/reservation');
     }
 
     public function menu($categoryId){
