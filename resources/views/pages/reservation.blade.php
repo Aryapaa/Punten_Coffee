@@ -8,7 +8,7 @@
             <h2 style="color:white; font-size:medium; text-align: center;">we will confirm your reservation via e-mail or phone</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('pages.store') }}" method= "post">
+            <form action="{{ route('pages.store_reservation') }}" method= "post">
             {!! csrf_field() !!}
                 <div class="row">
                     <div class="mb-3 col">
