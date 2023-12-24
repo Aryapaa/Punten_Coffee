@@ -46,6 +46,8 @@ Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('l
 
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 Route::get('/admin/user', [AdminController:: class, 'showUser'])->name('admin.user_admin');
+Route::get('/admin/reserve_adm', [AdminController:: class, 'showReservations'])->name('admin.reserv.reserve_adm');
+
 Route::get('/admin/menu/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
 Route::post('/admin/menu/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
 Route::get('/admin/menu/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
