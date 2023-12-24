@@ -74,8 +74,6 @@ class OrderController extends Controller
 
         $cartItems = $request->input('cartItems');
 
-        
-
             foreach ($cartItems as $item) {
                 OrderDetail::create([
                     'item_id' => $item['item_id'],
@@ -92,8 +90,7 @@ class OrderController extends Controller
                 ]);
             }
         
-        dd($order);
-        return redirect('/payment');
+        return redirect('/payment-success');
 
     }
 

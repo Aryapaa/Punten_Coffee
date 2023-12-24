@@ -46,15 +46,17 @@
 
           <div class="card-body" id="cartItemsInput"></div>
 
-        <div class=" text-center p-4">
+        <div class=
+        " text-center p-4">
             <button class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;" type="submit">Konfirmasi Pembayaran</button>
         </div>
 
     </form>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
 
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
         var cartData = JSON.parse(localStorage.getItem('cartData')) || [];
         var totalQuantity = 0;
         var totalPrice = 0;
@@ -85,6 +87,32 @@
 
         document.getElementById('totalQuantity').innerText = totalQuantity + ' Quantity';
         document.getElementById('totalPrice').innerText = 'Rp. ' + totalPrice;
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+
+        var totalQuantity = 0;
+        var totalPrice = 0;
+
+        cartData.forEach(function (item) {
+
+            totalQuantity += parseInt(item.quantity);
+
+            totalPrice += (parseInt(item.quantity) * getItemPrice(item.itemId));
+
+            var itemName = getItemName(item.itemId);
+
+            var itemHtml = `
+                <input class="form-control" type="hidden" name="cartItems[${item.itemId}][item_id]" value="${item.itemId}">
+                <input class="form-control" type="hidden" name="cartItems[${item.itemId}][item_name]" value="${getItemName(item.itemId)}">
+                <input class="form-control" type="hidden" name="cartItems[${item.itemId}][item_price]" value="${getItemPrice(item.itemId)}">
+                <input class="form-control" type="hidden" name="cartItems[${item.itemId}][qty]" value="${item.quantity}">
+            `;
+            
+            document.getElementById('cartItemsInput').innerHTML += itemHtml;
+        });
     });
 
     function getItemPrice(itemId) {
@@ -134,6 +162,9 @@
         document.getElementById('subTotalPrice').innerText = 'Rp ' + subTotalPrice;
         document.getElementById('ppnPrice').innerText = 'Rp ' + ppnPrice;
         document.getElementById('totalPrice').innerText = 'Rp ' + totalPrice;
+
+        document.getElementById('totalOrder').value = subTotalPrice;
+        document.getElementById('totalAmount').value = totalPrice;
     });
 
     function getItemPrice(itemId) {
