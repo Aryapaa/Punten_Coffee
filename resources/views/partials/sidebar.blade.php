@@ -54,6 +54,6 @@
                 <a href="{{ url('/admin/menu') }}" class="nav-link has-dropdown"><i class="fas fa-th"></i>
                     <span>Menu</span></a>
             </li>
-        </ul>
-    </aside>
-</div> -->
+            <li class=active><a class="nav-link" href="blank.html"><i class="far fa-square"></i>
+                    <span>User</span></a></li>
+</div>

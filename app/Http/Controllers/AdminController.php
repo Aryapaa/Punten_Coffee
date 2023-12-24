@@ -19,11 +19,11 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'email' => 'required | email',
             'password' => 'required',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user) {
             if ($request->password === $user->password) {
@@ -33,10 +33,10 @@ class AdminController extends Controller
                 // session(['authenticated' => true]);
                 return redirect('/dashboard');
             } else {
-                return redirect()->route('home')->with('error', 'Password is incorrect');
+                return redirect()->route('login')->with('error', 'Password is incorrect');
             }
         } else {
-            return redirect()->route('home')->with('error', 'User not found');
+            return redirect()->route('login')->with('error', 'User not found');
         }
     }  
 
@@ -132,4 +132,72 @@ class AdminController extends Controller
 
         return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
     }
+
+    //user
+    public function create_user()
+    {
+        return view('admin.user.create');
+    }
+    public function store_user(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        //save ke database
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect('admin/user');
+    }
+
+    public function showUser()
+    {
+        $user = User::all();
+        return view('admin.user_admin', compact('user'));
+    }
+
+    public function destroy_user(string $id)
+    {
+        $user = User::select('id')->whereId($id)->first();
+        $user->delete();
+
+        return redirect('/admin/user'); 
+    }
+
+    public function edit_user($id)
+    {
+        $user = user::find($id);
+        return view('admin.user.update', compact('user'));
+    }
+
+    public function update_user(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = User::find($id);
+
+        if (!$user) {
+            return redirect('/admin/user')->with('error', 'User not found');
+        }
+    
+        // Update user data
+    
+            $user ->name = $request->name;
+            $user ->email = $request->email;
+            $user ->password = bcrypt($request->password);
+            $user ->save();
+    
+        return redirect('/admin/user')->with('success', 'User successfully updated');
+    }
 }
+    
