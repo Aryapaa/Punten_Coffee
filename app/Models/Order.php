@@ -9,15 +9,15 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'order_detail';
+    protected $table = 'order';
 
     protected $fillable = [
-        'id',
-        'item_id',
-        'item_name',
-        'item_price',
-        'qty',
-        'created_at',
-        'updated_at'
+        'order_number',
+        'email',
+        'name',
+        'total_order',
+        'total_amount',
+        // 'payment_method',
+        'status_payment'
     ];
 }
