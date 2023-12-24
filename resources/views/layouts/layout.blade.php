@@ -9,6 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="{{url('asset/front-end/css/menu.css')}}">
     <!-- <link rel="stylesheet" href="{{url('asset/front-end/css/reservation.css')}}"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 </head>
 
 <body>
