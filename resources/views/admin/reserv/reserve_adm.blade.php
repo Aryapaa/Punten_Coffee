@@ -23,7 +23,7 @@
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
@@ -36,16 +36,21 @@
                         <tbody>
                             @foreach ($reservation as $rese)
                                 <tr>
-                                    <td>{{ $rese->No}}</td>
+                                    <td>{{ $rese->id}}</td>
                                     <td>{{ $rese->name}}</td>
                                     <td>{{ $rese->email}}</td>
-                                    <td>{{ $rese->phone}}</td>
+                                    <td>{{ $rese->phone_number}}</td>
                                     <td>{{ $rese->date}}</td>
                                     <td>{{ $rese->time}}</td>
                                     <td>{{ $rese->person}}</td>
                                     <td>
-                                    <button href="#" class="btn btn-primary" title="Edit" type="button"><i class = "fa fa-pencil-square-o px-1"></i></button>
-                                    <button href="#" class="btn btn-danger" title="Delete" type="button"><i class = "fa fa-trash-o px-1"></i></button>
+                                    <a href="{{route ('admin.reserv.edit_reservation', $rese->id)}}"><button class="btn btn-primary" title="Edit" type="button"><i class = "fa fa-pencil-square-o px-1"></i></button></a>
+                                    <form action="{{route ('admin.reserv.delete_reservation', ['id' => $rese->id])}}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Anda yakin ingin menghapus data?')" title="Delete"><i class = "fa fa-trash-o px-1"></i></button>
+                                    </form>
                                     </td>
                                 </tr>
                             @endforeach

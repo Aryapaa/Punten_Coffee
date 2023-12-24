@@ -7,7 +7,7 @@
             <h1 style="color:white; text-align: center;">Edit Reservation</h1>
         </div>
         <div class="card-body">
-            <form action="admin.update_reservation', ['id' => $reservation->id]}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin.reserv.update_reservation', ['id' => $reservation->id])}}" method="post" enctype="multipart/form-data">
             {!! csrf_field() !!}
             @method('PUT')
                 <div class="row">
@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Phone Number</label>
-                        <input type="number" class="form-control" id="phone-number" value="{{$reservation->phone-number}}">
+                        <input type="number" class="form-control" id="phone_number" value="{{$reservation->phone_number}}">
                     </div>
                     <div class="mb-3 col">
                         <label class="form-label">Date</label>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="mb-3 col">
                         <label class="form-label">Person(s)</label>
-                        <input type="number" class="form-control" id="person(s)" value="{{$reservation->person(s)}}">
+                        <input type="number" class="form-control" id="person(s)" value="{{$reservation->person}}">
                     </div>
                 </div>
                 <div class="text-center">

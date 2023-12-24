@@ -46,14 +46,17 @@ Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('l
 
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 Route::get('/admin/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
-Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-Route::get('/admin/update', [AdminController:: class, ''])->name('admin.update');
+Route::post('/admin/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
+Route::get('/admin/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
+Route::put('/admin/{id}/update', [AdminController::class, 'update_menu'])->name('admin.menu.update');
+Route::delete('/admin/{id}/delete', [AdminController:: class, 'destroy_menu'])->name('admin.menu.delete');
 
-Route::get('/pages/reservation', [GuestController:: class, 'create_reservations'])->name('pages.reservation');
-Route::post('/pages/storeReservation', [GuestController::class, 'storeReservation'])->name('pages.storeReservation');
-Route::get('/pages/reserve_adm', [AdminController:: class, 'showReservations'])->name('pages.reserve_adm');
-Route::get('/admin/update_reservation', [AdminController:: class, 'update_reservations'])->name('admin.update_reservation');
-Route::get('/admin/delete_reservation', [AdminController:: class, 'delete_reservations'])->name('admin.delete_reservation');
+Route::get('reservation', [GuestController:: class, 'create_reservations'])->name('pages.reservation');
+Route::post('/pages/reservation', [GuestController::class, 'store_reservation'])->name('pages.store');
+Route::get('/admin/reserve_adm', [AdminController:: class, 'showReservations'])->name('admin.reserve_adm');
+Route::get('/admin/{id}/edit', [AdminController::class, 'edit_reservation'])->name('admin.reserv.edit_reservation');
+Route::put('/admin/{id}/update_reservation', [AdminController:: class, 'update_reservations'])->name('admin.reserv.update_reservation');
+Route::delete('/admin/reserv/{id}/delete_reservation', [AdminController:: class, 'delete_reservation'])->name('admin.reserv.delete_reservation');
 
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');
