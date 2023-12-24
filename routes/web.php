@@ -43,13 +43,13 @@ Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
 
 Route::get('/login', [AdminController:: class, 'login'])->name('login');
 Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('login-proses');
-Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 
-Route::get('/admin/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
-Route::post('/admin/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
-Route::get('/admin/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
-Route::put('/admin/{id}/update', [AdminController::class, 'update_menu'])->name('admin.menu.update');
-Route::delete('/admin/{id}/delete', [AdminController:: class, 'destroy_menu'])->name('admin.menu.delete');
+Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
+Route::get('/admin/menu/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
+Route::post('/admin/menu/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
+Route::get('/admin/menu/{id}/edit', [AdminController:: class, 'edit_menu'])->name('admin.menu.edit');
+Route::put('/admin/menu/{id}/update', [AdminController::class, 'update_menu'])->name('admin.menu.update');
+Route::delete('/admin/menu/{id}/delete', [AdminController:: class, 'destroy_menu'])->name('admin.menu.delete');
 
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');

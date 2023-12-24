@@ -1,4 +1,55 @@
-<nav class="navbar navbar-expand-lg main-navbar" style='background-color:#8B0C0C'>
+<nav class="navbar bg-body-tertiary" style='background-color:#8B0C0C'>
+  <div class="container-fluid">
+    <a class="navbar-brand px-4" href="#" style="color:white; font-size:24px;">Administrator</a>
+    <button class="navbar-toggler " style='background-color:white' type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h3 class="navbar-brand"><i><span style="color: brown;">Punten</span> Coffee</i></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/menu">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reservations</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+            </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg" style='background-color:#8B0C0C'>
+    <div class="container-fluid">
+        <a href="#" data-toggle="sidebar" class="navbar-brand px-2"><i class="fa fa-bars"></i></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a class="nav-link" href="{{ route('home') }}"><i><span style="color: white; font-size:20px">Administrator</span></i></a>
+        </div>
+    </div>
+</nav> -->
+
+<!-- <nav class="navbar navbar-expand-lg main-navbar" style='background-color:#8B0C0C'>
     <form class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
@@ -222,4 +273,4 @@
             </div>
         </li>
     </ul>
-</nav>
+</nav> -->

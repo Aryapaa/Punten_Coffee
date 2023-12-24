@@ -41,19 +41,29 @@ class AdminController extends Controller
     }  
 
 
-    public function showItems(){
-        $items = Item::all();
-        return view('admin.menu_admin', compact('items'));
+    public function showItems(Request $request){
+        $katakunci = $request->katakunci;
+        $jumlahbaris = 20;
+        if(strlen($katakunci)){
+            $items = Item::where('name', 'like', "%$katakunci%")
+                        ->orWhere('subcategory_id', 'like', "%$katakunci%")
+                        ->paginate($jumlahbaris);
+
+        }else{
+            $items = Item::paginate($jumlahbaris);
+        }
+            return view('admin.menu_admin', compact('items'));
     }
 
     public function create_menu()
     {
         $subcategories = Subcategory::all();
-        return view('admin.menu.create', compact('subcategories'));
+        return view('admin/menu/create', compact('subcategories'));
     }
 
-    public function store_menu(Request $request)
+     public function store_menu(Request $request)
     {
+        // Validasi form
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
@@ -62,10 +72,10 @@ class AdminController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $photo = time() .'-' .$request->photo->getClientOriginalName();
+            $photo = time() .'-' .$request->photo->getClientOriginalName();
             $request->photo->move('asset/front-end/img', $photo);
-        
-        //save ke database
+
+        // Simpan data ke database
         Item::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -73,8 +83,8 @@ class AdminController extends Controller
             'subcategory_id' => $request->subcategory_id,
             'photo' => $photo,
         ]);
-
-        return redirect('/admin/menu');
+       
+        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
     }
 
     public function edit_menu(string $id)
@@ -112,7 +122,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu');
+        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
     }
 
     public function destroy_menu(string $id)
@@ -120,6 +130,6 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu'); 
+        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
     }
 }

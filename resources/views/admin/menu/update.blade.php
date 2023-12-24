@@ -3,7 +3,7 @@
 @section('content')
 
 <div class = "card" style = "margin : 20px;">
-    <div class = "card-header" style = "background-color: #8B0C0C ; color : white">Create New Items</div>
+    <div class = "card-header" style = "background-color: #8B0C0C ; color : white">Update Items</div>
     <div class = "card-body">
         <form action="{{ route('admin.menu.update', ['id' => $items->id]) }}" method= "post" enctype="multipart/form-data">
         {!! csrf_field() !!}
@@ -33,7 +33,8 @@
                                 @endforeach
         </select></br>
 
-        <input type="submit" value= "Update" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF "></br>
+        <input type="submit" value= "Update" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF ">
+        <a href= "{{ url('admin/menu') }}" type="submit" value= "Back" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF ">Back</a></br>
         </form>
     </div>  
 </div>
