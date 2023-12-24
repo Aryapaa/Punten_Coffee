@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Termwind\Components\Dd;
 
 class OrderController extends Controller
 {
@@ -60,7 +60,6 @@ class OrderController extends Controller
             'name' => 'required',
             'total_order' => 'required',
             'total_amount' => 'required',
-            'payment_method' => 'required',
         ]);
 
          $orderNumber = 'ORD' . rand(1000, 9999);
@@ -70,7 +69,6 @@ class OrderController extends Controller
             'name' => $request->name,
             'total_order' => $request->total_order,
             'total_amount' => $request->total_amount,
-            'payment_method' => $request->payment_method,
             'order_number' => $orderNumber,
         ]);
 
@@ -93,12 +91,10 @@ class OrderController extends Controller
                     'stock' => $itemModel->stock - $item['qty'],
                 ]);
             }
+        
+        dd($order);
+        return redirect('/payment');
 
-           if ($request->payment_method === 'qris') {
-                return redirect('/qris/' . $request->total_amount);
-            } else {
-                return redirect('/payment-success/');
-            }
     }
 
     public function qris($totalAmount)
@@ -113,40 +109,276 @@ class OrderController extends Controller
         return view('pages/payment-success');
     }
 
-    public function checkout(Request $request)
+    // Untuk Halaman Admin
+
+    public function orderMasuk()
     {
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
-
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => rand(),
-                'gross_amount' => 20000,
-            ),
-            'customer_details' => array(
-                'name' => 'budi',
-                'email' => 'budi.pra@example.com'
-            ),
-        );
-
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        return view('pages/checkout', compact('snapToken'));
+        $order = Order::orderBy('created_at', 'desc')->get();
+        return view('admin/order-masuk/index', compact('order'));
     }
 
-    public function callback(Request $request){
-        $serverKey = config('midtrans.server_key');
-        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-        dd($request);
-        // if($hashed == $request->signature_key){
-        //     if($request->trasaction_status == 'capture'){
+    public function editOrder($id)
+    {
+        $order = Order::whereId($id)->firstOrFail();
+        $items = Item::all();
+        $idOrder = $id; 
 
-        //     }
-        // }
+        $orderDetails = OrderDetail::select('order_detail.*', 'order.*', 'items.*','order_detail.id as order_detail_id')
+            ->join('order', 'order_detail.order_id', '=', 'order.id')
+            ->join('items', 'order_detail.item_id', '=', 'items.id')
+            ->where('order.id', $id)
+            ->get();
+
+        return view('admin/order-masuk/edit', compact('orderDetails', 'order', 'items','idOrder'));
     }
+
+    public function addItem(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'item_id' => 'required',
+            'qty' => 'required',
+        ]);
+
+        $item = Item::find($request->item_id);
+
+        if (!$item) {
+            abort(404, 'Order not found');
+        }
+
+        $data = [
+            'order_id' => $request->order_id,
+            'item_id' => $request->item_id,
+            'item_name' => $item->name,
+            'item_price' => $item->price,
+            'qty' => $request->qty, 
+        ];
+
+        OrderDetail::create($data);
+
+        // $orderdetail->order_id
+        $order = Order::find($request->order_id);
+
+        // memperbarui stok
+
+        if($item){
+            $item->stock = $item->stock - $request->qty;
+            $item->save();
+        }
+
+        // memperbarui order
+        if ($order) {
+          
+            $totalOrder = $order->total_order + ($item->price * $request->qty);
+
+            $totalAmount = $totalOrder + ($totalOrder * 0.1);
+
+            $order->total_order = $totalOrder;
+            $order->total_amount = $totalAmount;
+            $order->save();
+        }
+
+        $request->session()->flash('sukses', '
+            <div class="alert alert-success" role="alert">
+                Item berasil ditambah
+            </div>
+        ');
+
+        return redirect('order-masuk/' . $request->order_id . '/edit');
+    }
+
+    public function updateOrder(string $id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'status_payment' => 'required',
+        ]);
+
+        $order = Order::find($id);
+
+        if (!$order) {
+            abort(404, 'Order not found');
+        }
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'payment_method' => $request->payment_method,
+            'status_payment' => $request->status_payment, 
+        ];
+
+        $order->update($data);
+
+        $request->session()->flash('sukses', '
+            <div class="alert alert-success" role="alert">
+                Data berhasil diubah
+            </div>
+        ');
+
+        return redirect('order-masuk/' . $id . '/edit');
+    }
+
+    public function updateOrderDetail(string $id, Request $request)
+    {
+
+        $request->validate([
+            'qty' => 'required|numeric|min:0'
+        ]);
+
+        $orderdetail = OrderDetail::find($id);
+
+        if (!$orderdetail) {
+            abort(404, 'Detail pesanan tidak ditemukan');
+        }
+
+        $oldQty = $orderdetail->qty;
+
+        $orderdetail->update(['qty' => $request->qty]);
+
+        $qtyDifference = $request->qty - $oldQty;
+
+        $item = Item::find($request->item_id);
+   
+        if ($item) {
+            $item->stock -= $qtyDifference;
+            $item->save();
+        }
+
+        // $orderdetail->order_id
+        $order = Order::find($orderdetail->order_id);
+
+        $details = OrderDetail::where('order_id', $order->id)->get();
+
+        if ($order) {
+          
+            $totalOrder = $details->sum(function ($detail) {
+            return $detail->item_price * $detail->qty;
+            });
+
+            $totalAmount = $totalOrder + ($totalOrder * 0.1);
+
+            $order->total_order = $totalOrder;
+            $order->total_amount = $totalAmount;
+            $order->save();
+        }
+
+         return redirect('order-masuk/' . $orderdetail->order_id . '/edit');
+    }
+
+
+    public function deleteOrderDetail(string $id)
+    {
+
+        $orderdetail = OrderDetail::find($id);
+
+        if (!$orderdetail) {
+            abort(404, 'Detail pesanan tidak ditemukan');
+        }
+
+        $qtyToDelete = $orderdetail->qty;
+      
+        $item = Item::find($orderdetail->item_id);
+        
+         // $orderdetail->order_id
+
+        $orderdetail->delete();
+
+        if ($item) {
+            $item->stock += $qtyToDelete;
+            $item->save();
+        }
+
+        $order = Order::find($orderdetail->order_id);
+       
+        $details = OrderDetail::where('order_id', $order->id)->get();
+
+        if ($order) {
+          
+            $totalOrder = $details->sum(function ($detail) {
+            return $detail->item_price * $detail->qty;
+            });
+
+            $totalAmount = $totalOrder + ($totalOrder * 0.1);
+
+            $order->total_order = $totalOrder;
+            $order->total_amount = $totalAmount;
+            $order->save();
+        }
+
+        return redirect('order-masuk/' . $orderdetail->order_id . '/edit');
+
+    }
+
+    public function deleteOrder(string $id, Request $request)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            // Mendapatkan semua OrderDetail untuk order tertentu
+            $orderDetails = OrderDetail::where('order_id', $id)->get();
+
+            // Inisialisasi array untuk menyimpan total kuantitas yang akan dihapus berdasarkan item_id
+            $qtyToDeletePerItem = [];
+
+            // Mengumpulkan total kuantitas yang akan dihapus berdasarkan item_id
+            foreach ($orderDetails as $detail) {
+                if (!isset($qtyToDeletePerItem[$detail->item_id])) {
+                    $qtyToDeletePerItem[$detail->item_id] = 0;
+                }
+
+                $qtyToDeletePerItem[$detail->item_id] += $detail->qty;
+            }
+
+            // Memperbarui stock untuk setiap item yang terkait
+            foreach ($qtyToDeletePerItem as $itemId => $qtyToDelete) {
+                $item = Item::find($itemId);
+
+                if ($item) {
+                    $item->stock += $qtyToDelete;
+                    $item->save();
+                }
+            }
+
+            // Hapus order details yang terkait dengan order
+            OrderDetail::where('order_id', $id)->delete();
+
+            // Hapus order
+            Order::find($id)->delete();
+
+            DB::commit();
+
+             $request->session()->flash('sukses', '
+            <div class="alert alert-success" role="alert">
+                Data berhasil dihapus
+            </div>
+        ');
+
+            return redirect('order-masuk');
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollback();
+
+            return redirect('order-masuk');
+        }
+            return redirect('order-masuk');
+
+    }
+
+
+    public function orderMasukDetail($id)
+    {
+       
+        $order = Order::whereId($id)->firstOrFail();
+
+        $orderDetails = OrderDetail::select('order_detail.*', 'order.*', 'items.*')
+            ->join('order', 'order_detail.order_id', '=', 'order.id')
+            ->join('items', 'order_detail.item_id', '=', 'items.id')
+            ->where('order.id', $id)
+            ->get();
+
+        return view('admin/order-masuk/show', compact('orderDetails', 'order'));
+    }
+
 }

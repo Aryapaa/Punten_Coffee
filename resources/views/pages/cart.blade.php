@@ -29,10 +29,28 @@
         </div>
     </div>
 
-<div class=" text-center">
-    <a href="/payment" class="btn text-white mb-4 mx-auto" style="background-color: #8B0C0C;" type="submit">Konfirmasi
-        Pembayaran</a>
-</div>
+    <form action="/payment-process" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="total_order" id="totalOrder" value="">
+        <input type="hidden" name="total_amount" id="totalAmount" value="">
+
+        <div class="form-group m-4 mb-4">
+            <label for="name">Masukkan Nama :</label>
+            <input type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Nama anda">
+        </div>
+
+        <div class="form-group m-4 mb-4">
+            <label for="email">Masukkan Email :</label>
+            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="your@mail.com">
+        </div>
+
+          <div class="card-body" id="cartItemsInput"></div>
+
+        <div class=" text-center p-4">
+            <button class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;" type="submit">Konfirmasi Pembayaran</button>
+        </div>
+
+    </form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

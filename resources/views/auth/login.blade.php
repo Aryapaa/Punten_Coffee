@@ -1,4 +1,4 @@
-@extends('layouts.layoutAdmin')
+@extends('layouts.layoutwonavbar')
 
 @section('content')
     <!DOCTYPE html>
@@ -129,7 +129,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="inputUsername">Username</label>
-                        <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username"
+                        <input type="text" class="form-control" id="inputUsername" name="email" placeholder="Email"
                             required>
                         @error('username')
                             <small>{{ $message }}</small>
