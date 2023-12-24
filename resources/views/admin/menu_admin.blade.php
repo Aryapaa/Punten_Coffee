@@ -1,15 +1,29 @@
-@extends('layouts.layoutwonavbar')
+@extends('partials.layout')
 
 @section('content')
-
+@if(session('success'))
+    <div class="alert alert-success mt-3 mx-3">
+        {{ session('success') }}
+    </div>
+@endif
+@if(session('danger'))
+    <div class="alert alert-danger mt-3 mx-3">
+        {{ session('danger') }}
+    </div>
+@endif
   <section id="list">
     <div class="container">
-      <a href="{{ url('/admin/create') }}" class ="btn btn-sm mt-3" title = "Add New Item" style = "background-color: #8B0C0C ; color : #FFFFFF"><i class = " fa fa-plus-circle px-1"></i>Add New Item</a>
+      <form class="d-flex mt-3" action="{{url('/admin/menu')}}" method="get">
+          <input class="form-control me-2" type="search" name="katakunci" placeholder="Search" value="{{ Request::get('katakunci') }}" aria-label="search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      <a href="{{ url('/admin/menu/create') }}" class ="btn btn-sm mt-3" title = "Add New Item" style = "background-color: #8B0C0C ; color : #FFFFFF"><i class = " fa fa-plus-circle px-1"></i>Add New Item</a>
       @if (count($items) > 0)
         <div class="table-responsive">
           <table class="table-striped table">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Stock</th>
@@ -19,8 +33,10 @@
               </tr>
             </thead>
             <tbody>
+              <?php $i = $items->firstItem()?>
               @foreach ($items as $item)
                 <tr>
+                  <td>{{ $i }}</td>
                   <td>{{ $item->name}}</td>
                   <td>{{ $item->price}}</td>
                   <td>{{ $item->stock}}</td>
@@ -37,16 +53,24 @@
                         <button type="submit" class="btn btn-danger btn-sm"
                             onclick="return confirm('Anda yakin ingin menghapus data ?')"><i class = "fa fa-trash-o px-1"></i>Delete</button>
                     </form>
-                        <!-- <a href="update.blade.php"><button class = "btn btn-danger"><i class = "fa fa-trash-o px-1"></i>Delete</button></a> -->
                   </td>
                 </tr>
+                <?php $i++ ?>
               @endforeach
             </tbody>
           </table>
+          {{ $items->links() }}
         </div>
       @else
         <p>Tidak ada produk yang tersedia</p>
       @endif
+
+      <!-- <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div>
+          An example success alert with an icon
+        </div>
+      </div> -->
     </div>
   </section>
 

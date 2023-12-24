@@ -104,6 +104,18 @@
                 border-radius: 5px;
                 cursor: pointer;
             }
+            .wrapper form .signup-link{
+            text-align: center;
+            margin-top: 20px;
+            font-size: 17px;
+            }
+            .wrapper form .signup-link a{
+            color: #16a085;
+            text-decoration: none;
+            }
+            form .signup-link a:hover{
+            text-decoration: underline;
+            }
         </style>
     </head>
     <section>
@@ -128,10 +140,10 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="inputUsername">Username</label>
-                        <input type="text" class="form-control" id="inputUsername" name="email" placeholder="Email"
+                        <label for="inputUsername">Email</label>
+                        <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email"
                             required>
-                        @error('username')
+                        @error('email')
                             <small>{{ $message }}</small>
                         @enderror
                     </div>
@@ -161,6 +173,5 @@
             </form>
         </body>
     </section>
-
     </html>
 @endsection

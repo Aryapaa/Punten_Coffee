@@ -24,6 +24,7 @@ class AdminController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user) {
             if ($request->password === $user->password) {
@@ -33,27 +34,83 @@ class AdminController extends Controller
                 // session(['authenticated' => true]);
                 return redirect('/dashboard');
             } else {
-                return redirect()->route('home')->with('error', 'Password is incorrect');
+                return redirect()->route('login')->with('error', 'Password is incorrect');
             }
         } else {
-            return redirect()->route('home')->with('error', 'User not found');
+            return redirect()->route('login')->with('error', 'User not found');
         }
     }  
 
+    public function showReservations(){
+        $reservation = Reservation::all();
+        return view('admin.reserv.reserve_adm', compact('reservation'));
+    }
 
-    public function showItems(){
-        $items = Item::all();
-        return view('admin.menu_admin', compact('items'));
+    public function update_reservations(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required|numeric',
+            'date' => 'required',
+            'time' => 'required',
+            'person(s)' => 'required|numeric', 
+        ]);
+
+        $data_update = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'date' => $request->date,
+            'time' => $request->time,
+            //'person(s)' => $request->person,
+        ];
+
+        $reservation = Reservation::select('id')->whereId($id)->first();
+
+        $reservation->update($data_update);
+
+        return redirect('/admin/reserv/reserve_adm');
+    }
+
+    public function edit_reservation(string $id)
+    {
+        $reservation = Reservation::select('*')->whereId($id)->firstOrFail();
+        return view('admin.reserv.update_reservation', compact('reservation'));
+    }
+
+    public function delete_reservation(string $id)
+    {
+        $reservation = Reservation::select('id')->whereId($id)->first();
+        $reservation->delete();
+
+        return redirect('/admin/reserve_adm'); 
+    }
+
+
+    public function showItems(Request $request){
+        $katakunci = $request->katakunci;
+        $jumlahbaris = 20;
+        if(strlen($katakunci)){
+            $items = Item::where('name', 'like', "%$katakunci%")
+                        ->orWhere('subcategory_id', 'like', "%$katakunci%")
+                        ->paginate($jumlahbaris);
+
+        }else{
+            $items = Item::paginate($jumlahbaris);
+        }
+            return view('admin.menu_admin', compact('items'));
     }
 
     public function create_menu()
     {
         $subcategories = Subcategory::all();
-        return view('admin.menu.create', compact('subcategories'));
+        return view('admin/menu/create', compact('subcategories'));
     }
 
-    public function store_menu(Request $request)
+     public function store_menu(Request $request)
     {
+        // Validasi form
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
@@ -62,10 +119,10 @@ class AdminController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $photo = time() .'-' .$request->photo->getClientOriginalName();
+            $photo = time() .'-' .$request->photo->getClientOriginalName();
             $request->photo->move('asset/front-end/img', $photo);
-        
-        //save ke database
+
+        // Simpan data ke database
         Item::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -73,8 +130,8 @@ class AdminController extends Controller
             'subcategory_id' => $request->subcategory_id,
             'photo' => $photo,
         ]);
-
-        return redirect('/admin/menu');
+       
+        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
     }
 
     public function edit_menu(string $id)
@@ -112,7 +169,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu');
+        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
     }
 
     public function destroy_menu(string $id)
@@ -120,6 +177,74 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu'); 
+        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
+    }
+
+    //user
+    public function create_user()
+    {
+        return view('admin.user.create');
+    }
+    public function store_user(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        //save ke database
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect('admin/user');
+    }
+
+    public function showUser()
+    {
+        $user = User::all();
+        return view('admin.user_admin', compact('user'));
+    }
+
+    public function destroy_user(string $id)
+    {
+        $user = User::select('id')->whereId($id)->first();
+        $user->delete();
+
+        return redirect('/admin/user'); 
+    }
+
+    public function edit_user($id)
+    {
+        $user = user::find($id);
+        return view('admin.user.update', compact('user'));
+    }
+
+    public function update_user(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = User::find($id);
+
+        if (!$user) {
+            return redirect('/admin/user')->with('error', 'User not found');
+        }
+    
+        // Update user data
+    
+            $user ->name = $request->name;
+            $user ->email = $request->email;
+            $user ->password = bcrypt($request->password);
+            $user ->save();
+    
+        return redirect('/admin/user')->with('success', 'User successfully updated');
     }
 }
+    
