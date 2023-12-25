@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('name');
             $table->integer('total_order');
-            $table->integer('total_amount');
+            $table->bigInteger('total_amount');
             $table->integer('total_payment_method')->nullable()->change();
             $table->timestamps();
 

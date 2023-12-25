@@ -115,7 +115,7 @@
     });
 
     function getItemPrice(itemId) {
-             @foreach($items as $item)
+            @foreach($items as $item)
                 if ("{{ $item->id }}" == itemId) {
                     return {{ $item->price }};
                 }

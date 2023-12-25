@@ -17,7 +17,7 @@ class Order extends Model
         'name',
         'total_order',
         'total_amount',
-        // 'payment_method',
+        'payment_method',
         'status_payment'
     ];
 }

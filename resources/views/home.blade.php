@@ -35,12 +35,7 @@
     <div class="container">
         <div class="row text-center">
             <h1 class="display-6 mb-3">About <span style="color: brown;">Us</span></h1>
-            <p class="lh-lg fs-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt a rem corrupti, itaque
-                nisi
-                natus at quae doloribus soluta veritatis magni rerum corporis aspernatur eum commodi aliquam quis! Fuga enim
-                sapiente architecto ut, ad asperiores optio a aliquid voluptatem soluta atque aspernatur placeat. Possimus
-                fugiat ex, odit nesciunt inventore perspiciatis deserunt quas, natus impedit corporis totam architecto omnis
-                modi culpa! Maxime doloribus libero deserunt. Culpa molestiae hic optio nemo pariatur?</p>
+            <p class="lh-lg fs-6">Everyday 12.00 - 00.00 Jalan Juanda 2. Samarinda, Kalimantan Timur · Minuman baru nih temen-temen! kalo lagi main ataupun mau mampir ke Punten coffee.</p>
         </div>
     </div>
 </section>
@@ -62,10 +57,8 @@
                 <div class="col-12 col-lg-6 order-0 order-md-1 d-flex align-self-center flex-column text-light">
                     <h1 class="display-4">Foods & Snacks</h1>
                     <div class="content-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non velit fuga nam molestias qui ratione
-                            quibusdam
-                            eum ab eligendi tempora?</p>
-                        <a class="btn" style="padding: 10px; border:3px solid white; background-color: white;" href="#" role="button">Explore More</a>
+                        <p>Dari camilan gurih yang pas untuk menemani secangkir kopi hangat hingga hidangan ringan yang istimewa untuk memuaskan selera Anda, kami menawarkan pengalaman kuliner yang lengkap di setiap gigitan.</p>
+                        <a class="btn" style="padding: 10px; border:3px solid white; background-color: white;" href="{{ route('menu',['category'=>1]) }}" role="button">Explore More</a>
                     </div>
                 </div>
             </div>
@@ -85,10 +78,8 @@
                 <div class="col-12 col-lg-6 order-1 order-md-1 order-lg-0 d-flex align-self-center flex-column text-light ">
                     <h1 class="display-4">Beverages</h1>
                     <div class="content-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non velit fuga nam molestias qui ratione
-                            quibusdam
-                            eum ab eligendi tempora?</p>
-                        <a class="btn" style="padding: 10px; border:3px solid white; background-color: white;" href="beverage.html" role="button">Explore More</a>
+                        <p>Nikmati setiap tegukan dengan ragam minuman pilihan kami, mulai dari kopi berkualitas tinggi hingga minuman spesial yang diracik dengan cermat untuk memenuhi selera Anda.</p>
+                        <a class="btn" style="padding: 10px; border:3px solid white; background-color: white;" href="{{ route('menu',['category'=>2]) }}" role="button">Explore More</a>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 offset-md-6 col-lg-6 offset-lg-0 order-0 order-md-0 order-lg-1 d-flex flex-column">
@@ -112,8 +103,8 @@
                 </div>
                 <div class="col-12 col-lg-6 align-self-center reserv-body">
                     <h1>Reservation</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nesciunt necessitatibus doloremque aut veritatis eos officia sint? Consequuntur, nihil natus.</p>
-                    <a class="btn" style="padding: 10px; background-color: black; color: white;" href="reserv.html" role="button">Reservation Now</a>
+                    <p>Segera reservasi meja Anda dan mari berbagi kenikmatan kopi dan suasana istimewa di Punten Coffee. Terima kasih atas kepercayaan Anda, dan kami tunggu kehadiran Anda dengan penuh antusiasme!</p>
+                    <a class="btn" style="padding: 10px; background-color: black; color: white;" href="{{ route('pages.reservation') }}" role="button">Reservation Now</a>
                 </div>
             </div>
         </div>

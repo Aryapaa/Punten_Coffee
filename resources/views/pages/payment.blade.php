@@ -25,8 +25,39 @@
 <input type="hidden" name="total_amount" id="totalAmount" value="">
 
 <div class=" text-center p-4">
-    <a href="./payment-success" class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;">Bayar</a>
+    <button id="pay-button" class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;">Bayar</button>
 </div>
+
+
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{config('midtrans.client_key')}}"></script>
+<script type="text/javascript">
+    // For example trigger on button clicked, or any time you need
+    var payButton = document.getElementById('pay-button');
+    payButton.addEventListener('click', function() {
+        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+        window.snap.pay('{{$snapToken}}', {
+            onSuccess: function(result) {
+                /* You may add your own implementation here */
+                alert("payment success!");
+                console.log(result);
+            },
+            onPending: function(result) {
+                /* You may add your own implementation here */
+                alert("wating your payment!");
+                console.log(result);
+            },
+            onError: function(result) {
+                /* You may add your own implementation here */
+                alert("payment failed!");
+                console.log(result);
+            },
+            onClose: function() {
+                /* You may add your own implementation here */
+                alert('you closed the popup without finishing the payment');
+            }
+        })
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -54,13 +85,9 @@
 
     function getItemPrice(itemId) {
         @foreach($items as $item)
-        if ("{{ $item->id }}" == itemId) {
-            return {
-                {
-                    $item - > price
-                }
-            };
-        }
+            if ("{{ $item->id }}" == itemId) {
+                    return {{ $item->price }};
+            }
         @endforeach
 
         return 0;

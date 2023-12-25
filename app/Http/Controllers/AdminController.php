@@ -20,10 +20,11 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'email' => 'required | email',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
+        $user = User::where('email', $request->email)->first();
         $user = User::where('email', $request->email)->first();
 
         if ($user) {

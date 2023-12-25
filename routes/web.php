@@ -39,7 +39,7 @@ Route::get('/order/{id_sub_cat}', [OrderController::class, 'order'])->name('page
 
 Route::get('/cart', [OrderController::class, 'cart'])->name('pages.cart');
 Route::get('/payment', [OrderController::class, 'payment'])->name('pages.payment');
-Route::post('/payment-process', [OrderController::class, 'paymentProcess']);
+Route::post('/payment-process', [OrderController::class, 'paymentProcess'])->name('pages.paymentprocess');
 
 Route::get('/qris/{totalAmount}', [OrderController::class, 'qris']);
 Route::get('/payment-success', [OrderController::class, 'paymentSuccess']);
@@ -73,3 +73,17 @@ Route::delete('/admin/{id}/delete_reservation', [AdminController:: class, 'delet
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');
 });
+
+Route::get('/order-masuk/{id}/detail', [OrderController::class, 'orderMasukDetail']);
+Route::get('/order-masuk', [OrderController::class, 'orderMasuk']);
+
+Route::get('/order-masuk/{id}/edit', [OrderController::class, 'editOrder']);
+Route::put('/order-masuk/{id}/update', [OrderController::class, 'updateOrder']);
+
+Route::get('/order-masuk/{id}/delete', [OrderController::class, 'deleteOrder'])->name('admin.order.index');
+
+Route::put('/order-masuk/{id}/update-detail', [OrderController::class, 'updateOrderDetail']);
+
+Route::post('/order-masuk/add-item', [OrderController::class, 'addItem'])->name('addItem');
+
+Route::get('/order-masuk/{id}/delete-detail', [OrderController::class, 'deleteOrderDetail'])->name('admin.order.edit');
