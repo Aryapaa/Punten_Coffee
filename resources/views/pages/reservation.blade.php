@@ -1,56 +1,54 @@
-@extends('layouts.layoutwonavbar')
+@extends('layouts.layout')
 
 @section('content')
 <div class="container">
-    <div class="text">
-        <h1 style="color: #392105; font-size: larger;">Fill the Form</h1>
-        <h2 style="color: #8E8282; font-size:medium;">we will confirm your reservation via e-mail or phone</h2>
-    </div>
-    <hr color="#965C19" size="75%">
-    <form action="#">
-        <div class="form-row">
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label class="name" style="color:#8E8282;">Your Name</label>
-            </div>
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label name="email" style="color:#8E8282;">E-mail</label>
-            </div>
+    <div class="card" style="margin:60px;">
+        <div class="card-header" style="background-color: #8B0C0C;">
+            <h1 style="color:white; text-align: center;">Fill the Form</h1>
+            <h2 style="color:white; font-size:medium; text-align: center;">we will confirm your reservation via e-mail or phone</h2>
         </div>
-        <div class="form-row">
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label for="number" style="color:#8E8282;">Phone Number</label>
-            </div>
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label for="date" style="color:#8E8282;">Date</label>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label for="time" style="color:#8E8282;">Time</label>
-            </div>
-            <div class="input-data">
-                <input type="text" required>
-                <div class="underline"></div>
-                <label for="person" style="color:#8E8282;">Person(s)</label>
-            </div>
-        </div>
-        <div class="form-row justify-content-center">
-            <div class="form-row submit-btn">
-                <div class="input-data">
-                    <div class="inner"></div>
-                    <button class="table">Find a Table</button>
+        <div class="card-body">
+            <form action="{{ route('pages.store_reservation') }}" method= "post" enctype="multipart/form-data">
+            {!! csrf_field() !!}
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">E-Mail</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Phone Number</label>
+                        <input type="number" class="form-control" id="phone_number" name="phone_number">
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                    </div>
                 </div>
-            </div>
-    </form>
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Time</label>
+                        <input type="time" class="form-control" id="time" name="time">
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Person(s)</label>
+                        <input type="number" class="form-control" id="person" name="person">
+                    </div>
+                </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="check1">
+                        <label class="form-check-label" for="check1">Are you sure to reserve?</label>
+                    </div>
+                <div class="text-center">
+                    <button type="submit" value ="Save" class="btn" style="background-color: #8B0C0C; color:white;">Find a Table</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection

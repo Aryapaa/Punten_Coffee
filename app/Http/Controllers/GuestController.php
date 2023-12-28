@@ -44,29 +44,20 @@ class GuestController extends Controller
             'person(s)' => 'required|numeric', 
         ]);
 
-        Reservation::create([
+        Reservations::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'date' => $request->date,
             'time' => $request->time,
-            //'person(s)' => $request->person,
+            'person(s)' => $request->person,
         ]);
 
-        return redirect('/reserv/reservation');
+        return redirect('/');
     }
 
     public function menu($categoryId){
         $category = Category::find($categoryId);
         return view('pages/menus', compact('category'));
-    }
-    
-
-    public function addReservation(Request $request){
-        $data = $request->all();
-
-        Reservations::create([
-
-        ]);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\File;
+use App\Models\Reservations;
 
 class AdminController extends Controller
 {
@@ -19,10 +20,11 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'email' => 'required | email',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
+        $user = User::where('email', $request->email)->first();
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
@@ -39,9 +41,8 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error', 'User not found');
         }
     }  
-
     public function showReservations(){
-        $reservation = Reservation::all();
+        $reservation = Reservations::all();
         return view('admin.reserv.reserve_adm', compact('reservation'));
     }
 
@@ -65,7 +66,7 @@ class AdminController extends Controller
             //'person(s)' => $request->person,
         ];
 
-        $reservation = Reservation::select('id')->whereId($id)->first();
+        $reservation = Reservations::select('id')->whereId($id)->first();
 
         $reservation->update($data_update);
 
@@ -74,13 +75,13 @@ class AdminController extends Controller
 
     public function edit_reservation(string $id)
     {
-        $reservation = Reservation::select('*')->whereId($id)->firstOrFail();
+        $reservation = Reservations::select('*')->whereId($id)->firstOrFail();
         return view('admin.reserv.update_reservation', compact('reservation'));
     }
 
     public function delete_reservation(string $id)
     {
-        $reservation = Reservation::select('id')->whereId($id)->first();
+        $reservation = Reservations::select('id')->whereId($id)->first();
         $reservation->delete();
 
         return redirect('/admin/reserve_adm'); 

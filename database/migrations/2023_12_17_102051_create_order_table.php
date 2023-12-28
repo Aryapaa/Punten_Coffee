@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_number');
+            $table->string('order_number');
             $table->string('email');
             $table->string('name');
             $table->integer('total_order');
-            $table->integer('total_amount');
-            $table->integer('total_payment_method');
+            $table->bigInteger('total_amount');
+            $table->integer('total_payment_method')->nullable()->change();
             $table->timestamps();
 
             $table->foreign('order_number')->references('id')->on('order_detail');
