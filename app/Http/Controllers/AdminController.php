@@ -33,7 +33,7 @@ class AdminController extends Controller
                 // Misalnya, atur sesi pengguna atau tindakan lainnya
                 // Contoh:
                 // session(['authenticated' => true]);
-                return redirect('/dashboard');
+                return redirect('/admin/user');
             } else {
                 return redirect()->route('login')->with('error', 'Password is incorrect');
             }
