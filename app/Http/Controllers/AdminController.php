@@ -223,9 +223,8 @@ class AdminController extends Controller
     }
 
     public function update_user(Request $request, $id)
-{
+    {
     $request->validate([
-        'name' => 'required',
         'email' => 'required|email',
         'password' => 'required',
     ]);
@@ -238,7 +237,6 @@ class AdminController extends Controller
     
         // Update user data
     
-            $user ->name = $request->name;
             $user ->email = $request->email;
             $user ->password = bcrypt($request->password);
             $user ->save();
