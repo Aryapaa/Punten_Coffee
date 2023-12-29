@@ -13,31 +13,31 @@
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Your Name</label>
-                        <input type="text" class="form-control" id="name" value="{{$reservation->name}}">
+                        <input type="text" class="form-control" name="name" value="{{$reservation->name}}">
                     </div>
                     <div class="mb-3 col">
                         <label class="form-label">E-Mail</label>
-                        <input type="email" class="form-control" id="email" value="{{$reservation->email}}">
+                        <input type="email" class="form-control" name="email" value="{{$reservation->email}}">
                     </div>
                 </div>  
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Phone Number</label>
-                        <input type="number" class="form-control" id="phone_number" value="{{$reservation->phone_number}}">
+                        <input type="number" class="form-control" name="phone_number" value="{{$reservation->phone_number}}">
                     </div>
                     <div class="mb-3 col">
                         <label class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" value="{{$reservation->date}}">
+                        <input type="date" class="form-control" name="date" value="{{$reservation->date}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Time</label>
-                        <input type="time" class="form-control" id="time" value="{{$reservation->time}}">
+                        <input type="time" class="form-control" name="time" value="{{$reservation->time}}">
                     </div>
                     <div class="mb-3 col">
                         <label class="form-label">Person(s)</label>
-                        <input type="number" class="form-control" id="person(s)" value="{{$reservation->person}}">
+                        <input type="number" class="form-control" name="person" value="{{$reservation->person}}">
                     </div>
                 </div>
                 <div class="text-center">
@@ -45,6 +45,13 @@
                 </div>
             </form>
         </div>
+        @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }} </p>
+                        @endforeach
+                    </div>
+        @endif
     </div>
 </div>
 @endsection

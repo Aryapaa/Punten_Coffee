@@ -10,6 +10,10 @@
         <div class="card-body">
             <form action="{{ route('pages.store_reservation') }}" method= "post">
             {!! csrf_field() !!}
+            @if(Session::has('status'))
+                <div class="alert alert-success alert-lg">
+                    {{Session::get('status')}}</div>
+            @endif
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Your Name</label>
@@ -49,6 +53,13 @@
                 </div>
             </form>
         </div>
+        @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }} </p>
+                        @endforeach
+                    </div>
+        @endif
     </div>
 </div>
 @endsection
