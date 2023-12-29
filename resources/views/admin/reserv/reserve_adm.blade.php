@@ -55,7 +55,6 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    
                 </div>
             </div>
         </div>  

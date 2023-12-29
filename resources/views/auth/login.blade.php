@@ -1,4 +1,4 @@
-@extends('layouts.layoutAdmin')
+@extends('layouts.layoutwonavbar')
 
 @section('content')
     <!DOCTYPE html>

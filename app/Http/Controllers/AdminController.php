@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\Subcategory;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\File;
+use App\Models\Reservations;
 
 class AdminController extends Controller
 {
@@ -20,10 +21,11 @@ class AdminController extends Controller
     public function login_proses(Request $request)
     {
         $request->validate([
-            'email' => 'required | email',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
+        $user = User::where('email', $request->email)->first();
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
@@ -32,7 +34,7 @@ class AdminController extends Controller
                 // Misalnya, atur sesi pengguna atau tindakan lainnya
                 // Contoh:
                 // session(['authenticated' => true]);
-                return redirect('/dashboard');
+                return redirect('/admin/user');
             } else {
                 return redirect()->route('login')->with('error', 'Password is incorrect');
             }
@@ -40,15 +42,9 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error', 'User not found');
         }
     }  
-
-    public function showReservations(Request $request){
-        $keyword = $request->keyword;
-        if(strlen($keyword)) {
-            $reservation = Reservation::where('name', 'like', "%&keyword%");
-        }else{
-            $reservation = Reservation::all();
-        }
-            return view('admin.reserv.reserve_adm', compact('reservation'));
+    public function showReservations(){
+        $reservation = Reservations::all();
+        return view('admin.reserv.reserve_adm', compact('reservation'));
     }
 
     public function update_reservations(Request $request, $id)
@@ -137,7 +133,7 @@ class AdminController extends Controller
             'photo' => $photo,
         ]);
        
-        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
+        return redirect('/admin/menu')->with('success', 'Item added successfully!');
     }
 
     public function edit_menu(string $id)
@@ -175,7 +171,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
+        return redirect('/admin/menu')->with('success', 'Item updated successfully!');
     }
 
     public function destroy_menu(string $id)
@@ -183,7 +179,7 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
+        return redirect('/admin/menu')->with('success', 'Item deleted successfully!'); 
     }
 
     //user
@@ -230,9 +226,8 @@ class AdminController extends Controller
     }
 
     public function update_user(Request $request, $id)
-{
+    {
     $request->validate([
-        'name' => 'required',
         'email' => 'required|email',
         'password' => 'required',
     ]);
@@ -245,7 +240,6 @@ class AdminController extends Controller
     
         // Update user data
     
-            $user ->name = $request->name;
             $user ->email = $request->email;
             $user ->password = bcrypt($request->password);
             $user ->save();

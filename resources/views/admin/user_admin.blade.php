@@ -1,6 +1,16 @@
-@extends('layouts.layoutwonavbar')
+@extends('partials.layout')
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success mt-3 mx-3">
+        {{ session('success') }}
+    </div>
+@endif
+@if(session('danger'))
+    <div class="alert alert-danger mt-3 mx-3">
+        {{ session('danger') }}
+    </div>
+@endif
 
   <section id="list">
     <div class="container">
@@ -19,7 +29,7 @@
             <tbody>
               @foreach ($user as $user)
                 <tr>
-                  <td>{{ $user->id}}</td>
+                  <td>{{ $loop->iteration}}</td>
                   <td>{{ $user->email}}</td>
                   <td>{{ $user->password}}</td>
                   <td>

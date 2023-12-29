@@ -28,8 +28,8 @@
               Admin
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" href="/admin/user">Settings</a></li>
+              <li><a class="dropdown-item" href="/login">Logout</a></li>
             </ul>
         </ul>
       </div>

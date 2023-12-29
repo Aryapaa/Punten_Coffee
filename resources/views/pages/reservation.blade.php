@@ -14,6 +14,8 @@
                 <div class="alert alert-success alert-lg">
                     {{Session::get('status')}}</div>
             @endif
+            <form action="{{ route('pages.store_reservation') }}" method= "post" enctype="multipart/form-data">
+            {!! csrf_field() !!}
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Your Name</label>
