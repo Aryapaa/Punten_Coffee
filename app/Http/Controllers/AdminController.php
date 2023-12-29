@@ -131,7 +131,7 @@ class AdminController extends Controller
             'photo' => $photo,
         ]);
        
-        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
+        return redirect('/admin/menu')->with('success', 'Item added successfully!');
     }
 
     public function edit_menu(string $id)
@@ -169,7 +169,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
+        return redirect('/admin/menu')->with('success', 'Item updated successfully!');
     }
 
     public function destroy_menu(string $id)
@@ -177,7 +177,7 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
+        return redirect('/admin/menu')->with('success', 'Item deleted successfully!'); 
     }
 
     //user
