@@ -1,4 +1,5 @@
-@extends('admin.main')
+@extends('partials.layout')
+
 @section('content')
     <section class="section">
         <div class="section-header">

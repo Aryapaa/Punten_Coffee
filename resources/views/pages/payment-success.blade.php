@@ -25,6 +25,7 @@
 
 <script>
     localStorage.removeItem('cartData');
+    localStorage.removeItem('saveEmail');
 </script>
 
 @endsection

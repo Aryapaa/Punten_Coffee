@@ -13,12 +13,13 @@ class Payment extends Model
 
     protected $fillable = [
         'id',
-        'name',
-        'price',
-        'stock',
-        'photo',
-        'subcategory_id',
-        'created_at',
-        'updated_at'
+        'date',
+        'order_id',
+        'jenis_pembayaran',
+        'nilai',
+        'email',
+        'status'
     ];
+
+    public $timestamps = false;
 }

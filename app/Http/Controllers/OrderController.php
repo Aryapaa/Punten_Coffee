@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Payment;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -41,28 +42,9 @@ class OrderController extends Controller
     }
 
     public function cart()
-    
     {
         $items = Item::all();
         return view('pages/cart', ['items' => $items,]);
-    }
-
-    public function payment()
-    {
-        $items = Item::all();
-        return view('pages/payment', ['items' => $items,]);
-    }
-
-
-    public function callback(Request $request){
-        $serverKey = config('midtrans.server_key');
-        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-        dd($request);
-        // if($hashed == $request->signature_key){
-        //     if($request->trasaction_status == 'capture'){
-
-        //     }
-        // }
     }
 
     public function paymentProcess(Request $request)
@@ -74,7 +56,7 @@ class OrderController extends Controller
             'total_amount' => 'required',
         ]);
 
-         $orderNumber = 'ORD' . rand(1000, 9999);
+        $orderNumber = 'ORD' . rand(1000, 9999);
 
         $order =  Order::create([
             'email' => $request->email,
@@ -82,6 +64,7 @@ class OrderController extends Controller
             'total_order' => $request->total_order,
             'total_amount' => $request->total_amount,
             'order_number' => $orderNumber,
+            'status_payment' => 'Unpaid',
         ]);
 
         $cartItems = $request->input('cartItems');
@@ -120,12 +103,44 @@ class OrderController extends Controller
                 'name' => $order->name,
                 'email' => $order->email,
             ),
+            // 'page_expiry' => array(
+            //     'duration' => 5,
+            //     'unit' => "minute"
+            // ),
+            'expiry' => array (
+                'unit' => "minutes",
+                'duration' => 1
+            )
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         $items = Item::all();
-
         return view('pages.payment', compact('snapToken', 'items'));
+    }
+
+    public function createPayment(Request $request){
+        $data = $request->all();
+
+        Payment::create($data);
+
+        return redirect()->route('pages.paymentsuccess');
+    }
+
+    public function updateOrderSuccess(Request $request, $id)
+    {
+        $request->validate([
+            'status_payment' => 'required'
+        ]);
+        
+            $data = [
+                'status_payment' => $request->status_payment
+            ];
+
+        $order = Order::where('order_number', $id);
+        
+        $order->update($data);
+        
+        return redirect()->route('pages.paymentsuccess');
     }
 
     public function paymentSuccess()

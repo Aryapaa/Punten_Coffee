@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
+use App\Models\Payment;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\File;
 use App\Models\Reservations;
@@ -243,6 +244,51 @@ class AdminController extends Controller
             $user ->save();
     
         return redirect('/admin/user')->with('success', 'User successfully updated');
+    }
+
+    public function showPayments(){
+        $payments = Payment::all();
+
+        return view('admin.payment_admin', compact('payments'));
+    }
+
+    public function edit_payment($id)
+    {
+        $payments = Payment::find($id);
+        return view('admin.payment.update', compact('payments'));
+    }
+
+    public function update_payment(Request $request, $id)
+    {
+    $request->validate([
+        'date' => 'required',
+        'order_id' => 'required',
+        'jenis_pembayaran' => 'required',
+        'nilai' => 'required|numeric',
+        'email' => 'required|email'
+    ]);
+    
+        $data = [
+            'date' => $request->date,
+            'order_id' => $request->order_id,
+            'jenis_pembayaran' => $request->jenis_pembayaran,
+            'nilai' => $request->nilai,
+            'email' => $request->email,
+        ];
+        
+    $payments = Payment::find($id);
+
+    $payments->update($data);
+    
+        return redirect('/admin/payment')->with('success', 'Transaction successfully updated');
+    }
+
+    public function destroy_payment(string $id)
+    {
+        $payments = Payment::select('id')->whereId($id)->first();
+        $payments->delete();
+
+        return redirect('/admin/payment')->with('success', 'Transaction successfully deleted!'); 
     }
 }
     

@@ -47,7 +47,7 @@
           <div class="card-body" id="cartItemsInput"></div>
 
         <div class=" text-center p-4">
-            <button class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;" type="submit">Konfirmasi Pembayaran</button>
+            <button class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;" type="submit" onclick="saveEmail()">Konfirmasi Pembayaran</button>
         </div>
 
     </form>
@@ -147,6 +147,7 @@
         document.addEventListener('DOMContentLoaded', function () {
         var cartData = JSON.parse(localStorage.getItem('cartData')) || [];
 
+        
         var subTotalPrice = 0;
 
         cartData.forEach(function (item) {
@@ -164,6 +165,8 @@
 
         document.getElementById('totalOrder').value = subTotalPrice;
         document.getElementById('totalAmount').value = totalPrice;
+
+
     });
 
     function getItemPrice(itemId) {
@@ -174,6 +177,11 @@
         @endforeach
 
         return 0;
+    }
+
+    function saveEmail(){
+        var email = document.getElementById('email').value;
+        localStorage.setItem('saveEmail', JSON.stringify(email));
     }
 </script>
 

@@ -11,18 +11,6 @@ use App\Models\Subcategory;
 
 class GuestController extends Controller
 {
-    // public function menu(){
-    //     $item = Item::all();
-
-    //     return view('pages/menu', compact('item'));
-    // }
-    public function beverages(){
-        return view('pages.menu_beverages');
-    }
-
-    public function foods(){
-        return view('pages.menus');
-    }
 
     public function index(){
         return view('home');
@@ -58,6 +46,8 @@ class GuestController extends Controller
 
     public function menu($categoryId){
         $category = Category::find($categoryId);
-        return view('pages/menus', compact('category'));
+
+        $cate = Category::all();
+        return view('pages/menus', compact('category', 'cate'));
     }
 }

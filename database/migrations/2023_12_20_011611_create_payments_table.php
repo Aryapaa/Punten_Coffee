@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->bigInteger('order_id');
-            
+            $table->string('order_id');
+            $table->string('jenis_pembayaran');
+            $table->bigInteger('nilai');
+            $table->string('email');
             $table->timestamps();
         });
     }

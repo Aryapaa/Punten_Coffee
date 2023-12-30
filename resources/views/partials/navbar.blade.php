@@ -21,6 +21,9 @@
             <a class="nav-link" href="/admin/menu">Menu</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/payment">Payment</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Reservations</a>
           </li>
           <li class="nav-item dropdown">
