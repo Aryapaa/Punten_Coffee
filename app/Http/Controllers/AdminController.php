@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\File;
+use App\Models\Order;
 
 class AdminController extends Controller
 {
@@ -246,5 +247,57 @@ class AdminController extends Controller
     
         return redirect('/admin/user')->with('success', 'User successfully updated');
     }
+    
+    // fungsi order
+    public function show_order(){
+        $order = Order::all();
+        return view('admin.order_admin', compact('order'));
+    }
+
+    public function edit_order(string $id)
+    {
+        $order = Order::select('*')->whereId($id)->firstOrFail();
+        return view('admin.order.update', compact('order'));
+    }
+
+    public function update_order(Request $request, $id)
+    {
+        $request->validate([
+            'order_number' => 'required',
+            'email' => 'required',
+            'name' => 'required',
+            'total_order' => 'required',
+            'total_amount' => 'required',
+            'status_payment' => 'required',
+            
+        ]);
+
+        $data = [
+            'order_number' => $request->order_number,
+            'email' => $request->email,
+            'name' => $request->name,
+            'total_order' => $request->total_order,
+            'total_amount' => $request->total_amount,
+            'status_payment' => $request->status_payment,
+        ];
+
+        $order = Order::select('id')->whereId($id)->first();
+
+        $order->update($data);
+
+        return redirect('/admin/order')->with('success', 'Order berhasil diupdate!');
+    }
+
+    public function destroy_order(string $id)
+    {
+        $order = Order::select('id')->whereId($id)->first();
+        $order->delete();
+
+        return redirect('/admin/order')->with('success', 'Item berhasil dihapus!'); 
+    }
+
+    
 }
+
+
     

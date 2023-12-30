@@ -144,6 +144,7 @@ class OrderController extends Controller
         }
 
         $data = [
+            'id' => $request->id,
             'order_id' => $request->order_id,
             'item_id' => $request->item_id,
             'item_name' => $item->name,
