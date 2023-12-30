@@ -46,8 +46,7 @@
 
           <div class="card-body" id="cartItemsInput"></div>
 
-        <div class=
-        " text-center p-4">
+        <div class=" text-center p-4">
             <button class="btn text-white mb-4 mx-auto w-100" style="background-color: #8B0C0C;" type="submit">Konfirmasi Pembayaran</button>
         </div>
 
@@ -116,7 +115,7 @@
     });
 
     function getItemPrice(itemId) {
-             @foreach($items as $item)
+            @foreach($items as $item)
                 if ("{{ $item->id }}" == itemId) {
                     return {{ $item->price }};
                 }

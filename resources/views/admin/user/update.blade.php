@@ -6,21 +6,19 @@
     <div class = "card-header" style = "background-color: #8B0C0C ; color : white">Update User</div>
     <div class = "card-body">
         <form action="{{ route('admin.user.update', ['id' => $user->id]) }}" method= "post" enctype="multipart/form-data">
-        {!! csrf_field() !!}
+        @csrf
         @method('PUT')
         <label>Email</label></br>
-        <input type="text" name="name" id = "name" value="{{$user->email}}" class="form-control"></br>
+        <input type="text" name="email"  class="form-control" id="Email" value="{{$user->email}}"></br>
 
         <label>Password</label></br>
-        <input type="text" name="price" id = "price" value="{{$user->password}}" class="form-control"></br>
+        <input type="text" name="password"  class="form-control" id="Password" value="{{$user->password}}"></br>
         </select></br>
 
-        <input type="submit" value= "Update" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF "></br>
+        <button type="submit" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF "> Update </button>
+        
         </form>
     </div>  
 </div>
 
 @endsection
-
-
-

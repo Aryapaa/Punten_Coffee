@@ -31,7 +31,7 @@
 
         <section class="col-12 col-lg-8">
                 @foreach($category->subCategories as $subcategory)
-                    <h3 id="{{ $subcategory->name }}">{{ $subcategory->name }}</h3>
+                    <h3 class="my-3" id="{{ $subcategory->name }}">{{ $subcategory->name }}</h3>
                     <div class="row d-flex justify-content-between d-grid gap-3">
                         @foreach($subcategory->items as $item)
                             <div class="col-12 col-md-6 col-lg-5">

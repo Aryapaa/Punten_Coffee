@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Subcategory;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\File;
+use App\Models\Reservations;
 use App\Models\Order;
 
 class AdminController extends Controller
@@ -33,7 +35,7 @@ class AdminController extends Controller
                 // Misalnya, atur sesi pengguna atau tindakan lainnya
                 // Contoh:
                 // session(['authenticated' => true]);
-                return redirect('/dashboard');
+                return redirect('/admin/user');
             } else {
                 return redirect()->route('login')->with('error', 'Password is incorrect');
             }
@@ -41,9 +43,8 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error', 'User not found');
         }
     }  
-
     public function showReservations(){
-        $reservation = Reservation::all();
+        $reservation = Reservations::all();
         return view('admin.reserv.reserve_adm', compact('reservation'));
     }
 
@@ -55,23 +56,23 @@ class AdminController extends Controller
             'phone_number' => 'required|numeric',
             'date' => 'required',
             'time' => 'required',
-            'person(s)' => 'required|numeric', 
+            'person' => 'required|numeric', 
         ]);
 
         $data_update = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'date' => $request->date,
-            'time' => $request->time,
-            //'person(s)' => $request->person,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+            'date' => $request->input('date'),
+            'time' => $request->input('time'),
+            'person' => $request->input('person'),
         ];
 
         $reservation = Reservation::select('id')->whereId($id)->first();
 
         $reservation->update($data_update);
 
-        return redirect('/admin/reserv/reserve_adm');
+        return redirect('/admin/reserve_adm')->with('status', 'Reservation has been updated');
     }
 
     public function edit_reservation(string $id)
@@ -101,6 +102,7 @@ class AdminController extends Controller
             $items = Item::paginate($jumlahbaris);
         }
             return view('admin.menu_admin', compact('items'));
+
     }
 
     public function create_menu()
@@ -132,7 +134,7 @@ class AdminController extends Controller
             'photo' => $photo,
         ]);
        
-        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
+        return redirect('/admin/menu')->with('success', 'Item added successfully!');
     }
 
     public function edit_menu(string $id)
@@ -170,7 +172,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
+        return redirect('/admin/menu')->with('success', 'Item updated successfully!');
     }
 
     public function destroy_menu(string $id)
@@ -178,7 +180,7 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
+        return redirect('/admin/menu')->with('success', 'Item deleted successfully!'); 
     }
 
     //user
@@ -225,9 +227,8 @@ class AdminController extends Controller
     }
 
     public function update_user(Request $request, $id)
-{
+    {
     $request->validate([
-        'name' => 'required',
         'email' => 'required|email',
         'password' => 'required',
     ]);
@@ -240,7 +241,6 @@ class AdminController extends Controller
     
         // Update user data
     
-            $user ->name = $request->name;
             $user ->email = $request->email;
             $user ->password = bcrypt($request->password);
             $user ->save();

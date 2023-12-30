@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +64,12 @@ Route::post('/admin/user/store', [AdminController::class, 'store_user'])->name('
 Route::get('/admin/user/{id}/edit', [AdminController:: class, 'edit_user'])->name('admin.user.edit');
 Route::put('/admin/user/{id}/update', [AdminController:: class, 'update_user'])->name('admin.user.update');
 Route::delete('/admin/user/{id}/delete', [AdminController:: class, 'destroy_user'])->name('admin.user.delete');
+
+Route::get('/reservation', [GuestController:: class, 'create_reservations'])->name('pages.reservation');
+Route::post('/reservation/store', [GuestController::class, 'store_reservation'])->name('pages.store_reservation');
+Route::get('/admin/{id}/edit_reservation', [AdminController:: class, 'edit_reservation'])->name('admin.reserv.edit_reservation');
+Route::put('/admin/{id}/update_reservation', [AdminController::class, 'update_reservations'])->name('admin.reserv.update_reservation');
+Route::delete('/admin/{id}/delete_reservation', [AdminController:: class, 'delete_reservation'])->name('admin.reserv.delete_reservation');
 
 Route::get('/pages/reservation', [GuestController:: class, 'create_reservations'])->name('pages.reservation');
 Route::post('/pages/reservation', [GuestController::class, 'store_reservation'])->name('pages.store_reservation');

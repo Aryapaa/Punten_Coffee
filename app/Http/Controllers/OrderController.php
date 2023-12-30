@@ -21,7 +21,7 @@ class OrderController extends Controller
             $items = Item::where('subcategory_id', $id_sub_cat)->get();
         } else {
             $items = Item::all();
-        }
+        };
 
         return view('pages/ordermenu', compact('items','subcategory', 'subcatid'));
     }
@@ -53,7 +53,19 @@ class OrderController extends Controller
         return view('pages/payment', ['items' => $items,]);
     }
 
-        public function paymentProcess(Request $request)
+
+    public function callback(Request $request){
+        $serverKey = config('midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+        dd($request);
+        // if($hashed == $request->signature_key){
+        //     if($request->trasaction_status == 'capture'){
+
+        //     }
+        // }
+    }
+
+    public function paymentProcess(Request $request)
     {
         $request->validate([
             'email' => 'required',
@@ -80,7 +92,7 @@ class OrderController extends Controller
                     'item_name' => $item['item_name'],
                     'item_price' => $item['item_price'],
                     'qty' => $item['qty'],
-                    'order_id' =>$order->id
+                    'id' =>$order->id
                 ]);
 
                 // Update stock in the items table
@@ -89,17 +101,32 @@ class OrderController extends Controller
                     'stock' => $itemModel->stock - $item['qty'],
                 ]);
             }
-        
-        return redirect('/payment-success');
+            
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
 
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $order->order_number,
+                'gross_amount' => $order->total_amount,
+            ),
+            'customer_details' => array(
+                'name' => $order->name,
+                'email' => $order->email,
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $items = Item::all();
+
+        return view('pages.payment', compact('snapToken', 'items'));
     }
-
-    public function qris($totalAmount)
-    {
-        $totalAmount;
-        return view('pages.qris', compact('totalAmount'));
-    }
-
 
     public function paymentSuccess()
     {
@@ -108,7 +135,7 @@ class OrderController extends Controller
 
     // Untuk Halaman Admin
 
-    public function orderMasuk()
+    public function orderMasuk(Request $request, $id)
     {
         $order = Order::orderBy('created_at', 'desc')->get();
         return view('admin/order-masuk/index', compact('order'));
@@ -307,76 +334,6 @@ class OrderController extends Controller
         return redirect('order-masuk/' . $orderdetail->order_id . '/edit');
 
     }
-
-    public function deleteOrder(string $id, Request $request)
-    {
-
-        try {
-            DB::beginTransaction();
-
-            // Mendapatkan semua OrderDetail untuk order tertentu
-            $orderDetails = OrderDetail::where('order_id', $id)->get();
-
-            // Inisialisasi array untuk menyimpan total kuantitas yang akan dihapus berdasarkan item_id
-            $qtyToDeletePerItem = [];
-
-            // Mengumpulkan total kuantitas yang akan dihapus berdasarkan item_id
-            foreach ($orderDetails as $detail) {
-                if (!isset($qtyToDeletePerItem[$detail->item_id])) {
-                    $qtyToDeletePerItem[$detail->item_id] = 0;
-                }
-
-                $qtyToDeletePerItem[$detail->item_id] += $detail->qty;
-            }
-
-            // Memperbarui stock untuk setiap item yang terkait
-            foreach ($qtyToDeletePerItem as $itemId => $qtyToDelete) {
-                $item = Item::find($itemId);
-
-                if ($item) {
-                    $item->stock += $qtyToDelete;
-                    $item->save();
-                }
-            }
-
-            // Hapus order details yang terkait dengan order
-            OrderDetail::where('order_id', $id)->delete();
-
-            // Hapus order
-            Order::find($id)->delete();
-
-            DB::commit();
-
-             $request->session()->flash('sukses', '
-            <div class="alert alert-success" role="alert">
-                Data berhasil dihapus
-            </div>
-        ');
-
-            return redirect('order-masuk');
-        } catch (\Exception $e) {
-            // Rollback transaksi jika terjadi kesalahan
-            DB::rollback();
-
-            return redirect('order-masuk');
-        }
-            return redirect('order-masuk');
-
-    }
-
-
-    public function orderMasukDetail($id)
-    {
-       
-        $order = Order::whereId($id)->firstOrFail();
-
-        $orderDetails = OrderDetail::select('order_detail.*', 'order.*', 'items.*')
-            ->join('order', 'order_detail.order_id', '=', 'order.id')
-            ->join('items', 'order_detail.item_id', '=', 'items.id')
-            ->where('order.id', $id)
-            ->get();
-
-        return view('admin/order-masuk/show', compact('orderDetails', 'order'));
-    }
-
 }
+
+
