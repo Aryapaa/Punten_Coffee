@@ -8,6 +8,9 @@
         <form action="{{ route('admin.user.update', ['id' => $user->id]) }}" method= "post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <label>Name</label></br>
+        <input type="text" name="name"  class="form-control" id="Name" value="{{$user->name}}"></br>
+
         <label>Email</label></br>
         <input type="text" name="email"  class="form-control" id="Email" value="{{$user->email}}"></br>
 

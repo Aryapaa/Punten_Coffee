@@ -226,21 +226,18 @@ class AdminController extends Controller
         return view('admin.user.update', compact('user'));
     }
 
+    // Update user data
     public function update_user(Request $request, $id)
     {
     $request->validate([
+        'name'=> 'required',
         'email' => 'required|email',
         'password' => 'required',
     ]);
 
     $user = User::find($id);
-
-        if (!$user) {
-            return redirect('/admin/user')->with('error', 'User not found');
-        }
     
-        // Update user data
-    
+            $user ->name = $request->name;
             $user ->email = $request->email;
             $user ->password = bcrypt($request->password);
             $user ->save();

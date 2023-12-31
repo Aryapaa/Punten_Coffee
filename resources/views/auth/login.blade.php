@@ -157,7 +157,9 @@
                     </div>
                     <button style='background-color:#8B0C0C; border-color:#8B0C0C;' type="submit"
                         class="btn btn-primary">Log In</button>
-                    <label for="forgotPass">Forgot password?</label>
+
+
+                    <!-- label for="forgotPass">Forgot password?</label>
                     <input type="text" id="forgotPass">
                     @if (session('error'))
                         <div class="alert alert-danger">
@@ -169,7 +171,8 @@
                             {{ session('message') }}
                         </div>
                     @endif
-                </div>
+                </div!-->
+                
             </form>
         </body>
     </section>

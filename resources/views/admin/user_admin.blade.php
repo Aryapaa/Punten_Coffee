@@ -21,6 +21,7 @@
             <thead>
               <tr>
                 <th>id</th>
+                <th>name</th>
                 <th>Email</th>
                 <th>Password</th>
                 <th>Action</th>
@@ -30,6 +31,7 @@
               @foreach ($user as $user)
                 <tr>
                   <td>{{ $loop->iteration}}</td>
+                  <td>{{ $user->name}}</td>
                   <td>{{ $user->email}}</td>
                   <td>{{ $user->password}}</td>
                   <td>
