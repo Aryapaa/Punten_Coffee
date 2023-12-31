@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Payment;
 use App\Models\Subcategory;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\File;
-use App\Models\Reservations;
+use App\Models\Order;
 
 class AdminController extends Controller
 {
@@ -43,7 +44,7 @@ class AdminController extends Controller
         }
     }  
     public function showReservations(){
-        $reservation = Reservations::all();
+        $reservation = Reservation::all();
         return view('admin.reserv.reserve_adm', compact('reservation'));
     }
 
@@ -55,34 +56,34 @@ class AdminController extends Controller
             'phone_number' => 'required|numeric',
             'date' => 'required',
             'time' => 'required',
-            'person(s)' => 'required|numeric', 
+            'person' => 'required|numeric', 
         ]);
 
         $data_update = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'date' => $request->date,
-            'time' => $request->time,
-            //'person(s)' => $request->person,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+            'date' => $request->input('date'),
+            'time' => $request->input('time'),
+            'person' => $request->input('person'),
         ];
 
-        $reservation = Reservations::select('id')->whereId($id)->first();
+        $reservation = Reservation::select('id')->whereId($id)->first();
 
         $reservation->update($data_update);
 
-        return redirect('/admin/reserv/reserve_adm');
+        return redirect('/admin/reserve_adm')->with('status', 'Reservation has been updated');
     }
 
     public function edit_reservation(string $id)
     {
-        $reservation = Reservations::select('*')->whereId($id)->firstOrFail();
+        $reservation = Reservation::select('*')->whereId($id)->firstOrFail();
         return view('admin.reserv.update_reservation', compact('reservation'));
     }
 
     public function delete_reservation(string $id)
     {
-        $reservation = Reservations::select('id')->whereId($id)->first();
+        $reservation = Reservation::select('id')->whereId($id)->first();
         $reservation->delete();
 
         return redirect('/admin/reserve_adm'); 
@@ -101,6 +102,7 @@ class AdminController extends Controller
             $items = Item::paginate($jumlahbaris);
         }
             return view('admin.menu_admin', compact('items'));
+
     }
 
     public function create_menu()
@@ -132,7 +134,7 @@ class AdminController extends Controller
             'photo' => $photo,
         ]);
        
-        return redirect('/admin/menu')->with('success', 'Item berhasil ditambahkan!');
+        return redirect('/admin/menu')->with('success', 'Item added successfully!');
     }
 
     public function edit_menu(string $id)
@@ -170,7 +172,7 @@ class AdminController extends Controller
 
         $item->update($data);
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil diupdate!');
+        return redirect('/admin/menu')->with('success', 'Item updated successfully!');
     }
 
     public function destroy_menu(string $id)
@@ -178,7 +180,7 @@ class AdminController extends Controller
         $item = Item::select('id')->whereId($id)->first();
         $item->delete();
 
-        return redirect('/admin/menu')->with('success', 'Item berhasil dihapus!'); 
+        return redirect('/admin/menu')->with('success', 'Item deleted successfully!'); 
     }
 
     //user
@@ -290,5 +292,57 @@ class AdminController extends Controller
 
         return redirect('/admin/payment')->with('success', 'Transaction successfully deleted!'); 
     }
+    
+    // fungsi order
+    public function show_order(){
+        $order = Order::all();
+        return view('admin.order_admin', compact('order'));
+    }
+
+    public function edit_order(string $id)
+    {
+        $order = Order::select('*')->whereId($id)->firstOrFail();
+        return view('admin.order.update', compact('order'));
+    }
+
+    public function update_order(Request $request, $id)
+    {
+        $request->validate([
+            'order_number' => 'required',
+            'email' => 'required',
+            'name' => 'required',
+            'total_order' => 'required',
+            'total_amount' => 'required',
+            'status_payment' => 'required',
+            
+        ]);
+
+        $data = [
+            'order_number' => $request->order_number,
+            'email' => $request->email,
+            'name' => $request->name,
+            'total_order' => $request->total_order,
+            'total_amount' => $request->total_amount,
+            'status_payment' => $request->status_payment,
+        ];
+
+        $order = Order::select('id')->whereId($id)->first();
+
+        $order->update($data);
+
+        return redirect('/admin/order')->with('success', 'Order berhasil diupdate!');
+    }
+
+    public function destroy_order(string $id)
+    {
+        $order = Order::select('id')->whereId($id)->first();
+        $order->delete();
+
+        return redirect('/admin/order')->with('success', 'Item berhasil dihapus!'); 
+    }
+
+    
 }
+
+
     

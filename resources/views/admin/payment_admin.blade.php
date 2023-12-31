@@ -15,7 +15,7 @@
     <div class="container">
         @if (count($payments) > 0)
         <div class="table-responsive">
-            <table class="table-striped table">
+            <table class="table-striped table mt-5">
                 <thead>
                     <tr>
                         <th>Date</th>

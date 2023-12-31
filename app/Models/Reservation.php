@@ -4,25 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Reservations extends Model
+class Reservation extends Model
 {
     use HasFactory;
 
     protected $table = 'reservation';
 
     protected $fillable = [
-        'id',
         'name',
         'email',
         'phone_number',
         'date',
         'time',
-        'person(s)',
+        'person',
         'created_at',
         'updated_at'
     ];
 
     
-}
 
+}

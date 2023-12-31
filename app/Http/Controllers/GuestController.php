@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Item;
-use App\Models\Reservations;
+use App\Models\Reservation;
 use App\Models\Subcategory;
 
 class GuestController extends Controller
@@ -29,20 +29,22 @@ class GuestController extends Controller
             'phone_number' => 'required|numeric',
             'date' => 'required',
             'time' => 'required',
-            'person(s)' => 'required|numeric', 
+            'person' => 'required|numeric', 
         ]);
 
-        Reservations::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'date' => $request->date,
-            'time' => $request->time,
-            'person(s)' => $request->person,
+        $reservation = Reservation::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+            'date' => $request->input('date'),
+            'time' => $request->input('time'),
+            'person' => $request->input('person'),
         ]);
 
-        return redirect('/');
+        return redirect('reservation')->with('status', 'Reservation has been added, please wait for our admin to contact you!');
     }
+
+
 
     public function menu($categoryId){
         $category = Category::find($categoryId);
@@ -50,4 +52,7 @@ class GuestController extends Controller
         $cate = Category::all();
         return view('pages/menus', compact('category', 'cate'));
     }
+    
+
+    
 }

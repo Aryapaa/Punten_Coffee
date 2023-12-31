@@ -9,13 +9,13 @@
         @csrf
         @method('PUT')
         <label>Email</label></br>
-        <input type="text" name="email"  class="form-control"></br>
+        <input type="text" name="email"  class="form-control" id="Email" value="{{$user->email}}"></br>
 
         <label>Password</label></br>
-        <input type="text" name="password"  class="form-control"></br>
+        <input type="text" name="password"  class="form-control" id="Password" value="{{$user->password}}"></br>
         </select></br>
 
-        <button type="submit" style = "background-color: #8B0C0C ; color : #FFFFFF "> Update </button>
+        <button type="submit" class="btn" style = "background-color: #8B0C0C ; color : #FFFFFF "> Update </button>
         
         </form>
     </div>  

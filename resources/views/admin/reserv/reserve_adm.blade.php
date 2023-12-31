@@ -1,4 +1,4 @@
-@extends('layouts.layoutwonavbar')
+@extends('partials.layout')
 
 @section('content')
 <div class="container">
@@ -7,19 +7,19 @@
             <div class="table-wrapper">
                 <div class="card-header" style="background-color: #8B0C0C;">
                     <h3 style="color:white;">Reservations</h3>
-                </div><br>
+                </div>
                 <div class="card-body">
                     <div>
                         <div class="row" style="margin=20px;">
                             <div class="container-fluid">
-                                <form class="d-flex" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                                </form>
                             </div>
                         </div>
                     </div>
                     <br>
+                    @if(Session::has('status'))
+                        <div class="alert alert-success alert-lg">
+                        {{Session::get('status')}}</div>
+                    @endif
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                             <tr>
@@ -36,7 +36,7 @@
                         <tbody>
                             @foreach ($reservation as $rese)
                                 <tr>
-                                    <td>{{ $rese->id}}</td>
+                                    <td>{{ $loop->iteration}}</td>
                                     <td>{{ $rese->name}}</td>
                                     <td>{{ $rese->email}}</td>
                                     <td>{{ $rese->phone_number}}</td>
@@ -55,10 +55,10 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    
                 </div>
             </div>
         </div>  
     </div>
 </div>   
 
+@endsection

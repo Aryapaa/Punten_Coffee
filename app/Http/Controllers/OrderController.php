@@ -154,6 +154,118 @@ class OrderController extends Controller
     {
         $order = Order::orderBy('created_at', 'desc')->get();
         return view('admin/order-masuk/index', compact('order'));
+    }
+
+    public function editOrder($id)
+    {
+        $order = Order::whereId($id)->firstOrFail();
+        $items = Item::all();
+        $idOrder = $id; 
+
+        $orderDetails = OrderDetail::select('order_detail.*', 'order.*', 'items.*','order_detail.id as order_detail_id')
+            ->join('order', 'order_detail.order_id', '=', 'order.id')
+            ->join('items', 'order_detail.item_id', '=', 'items.id')
+            ->where('order.id', $id)
+            ->get();
+
+        return view('admin/order-masuk/edit', compact('orderDetails', 'order', 'items','idOrder'));
+    }
+
+    public function addItem(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'item_id' => 'required',
+            'qty' => 'required',
+        ]);
+
+        $item = Item::find($request->item_id);
+
+        if (!$item) {
+            abort(404, 'Order not found');
+        }
+
+        $data = [
+            'id' => $request->id,
+            'order_id' => $request->order_id,
+            'item_id' => $request->item_id,
+            'item_name' => $item->name,
+            'item_price' => $item->price,
+            'qty' => $request->qty, 
+        ];
+
+        OrderDetail::create($data);
+
+        // $orderdetail->order_id
+        $order = Order::find($request->order_id);
+
+        // memperbarui stok
+
+        if($item){
+            $item->stock = $item->stock - $request->qty;
+            $item->save();
+        }
+
+        // memperbarui order
+        if ($order) {
+          
+            $totalOrder = $order->total_order + ($item->price * $request->qty);
+
+            $totalAmount = $totalOrder + ($totalOrder * 0.1);
+
+            $order->total_order = $totalOrder;
+            $order->total_amount = $totalAmount;
+            $order->save();
+        }
+
+        $request->session()->flash('sukses', '
+            <div class="alert alert-success" role="alert">
+                Item berasil ditambah
+            </div>
+        ');
+
+        return redirect('order-masuk/' . $request->order_id . '/edit');
+    }
+
+    public function updateOrder(string $id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'status_payment' => 'required',
+        ]);
+
+        $order = Order::find($id);
+
+        if (!$order) {
+            abort(404, 'Order not found');
+        }
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'payment_method' => $request->payment_method,
+            'status_payment' => $request->status_payment, 
+        ];
+
+        $order->update($data);
+
+        $request->session()->flash('sukses', '
+            <div class="alert alert-success" role="alert">
+                Data berhasil diubah
+            </div>
+        ');
+
+        return redirect('order-masuk/' . $id . '/edit');
+    }
+
+    public function updateOrderDetail(string $id, Request $request)
+    {
+
+        $request->validate([
+            'qty' => 'required|numeric|min:0'
+        ]);
+
         $orderdetail = OrderDetail::find($id);
 
         if (!$orderdetail) {

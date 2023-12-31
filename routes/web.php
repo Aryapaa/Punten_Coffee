@@ -40,7 +40,12 @@ Route::post('/login-proses', [AdminController:: class, 'login_proses'])->name('l
 Route::get('/admin/menu', [AdminController:: class, 'showItems'])->name('admin.menu_admin'); 
 Route::get('/admin/user', [AdminController:: class, 'showUser'])->name('admin.user_admin');
 Route::get('/admin/reserve_adm', [AdminController:: class, 'showReservations'])->name('admin.reserv.reserve_adm');
+Route::get('/admin/order', [AdminController:: class, 'show_order'])->name('admin.order_admin'); 
 Route::get('/admin/payment', [AdminController::class, 'showPayments'])->name('admin.payment');
+
+Route::get('/admin/payment/{id}/edit', [AdminController:: class, 'edit_payment'])->name('admin.payment.edit');
+Route::put('/admin/payment/{id}/update', [AdminController::class, 'update_payment'])->name('admin.payment.update');
+Route::delete('/admin/payment/{id}/delete', [AdminController:: class, 'destroy_payment'])->name('admin.payment.delete');
 
 Route::get('/admin/menu/create', [AdminController:: class, 'create_menu'])->name('admin.menu.create');
 Route::post('/admin/menu/store', [AdminController::class, 'store_menu'])->name('admin.menu.store');
@@ -60,25 +65,11 @@ Route::get('/admin/{id}/edit_reservation', [AdminController:: class, 'edit_reser
 Route::put('/admin/{id}/update_reservation', [AdminController::class, 'update_reservations'])->name('admin.reserv.update_reservation');
 Route::delete('/admin/{id}/delete_reservation', [AdminController:: class, 'delete_reservation'])->name('admin.reserv.delete_reservation');
 
-Route::get('/admin/payment/{id}/edit', [AdminController:: class, 'edit_payment'])->name('admin.payment.edit');
-Route::put('/admin/payment/{id}/update', [AdminController::class, 'update_payment'])->name('admin.payment.update');
-Route::delete('/admin/payment/{id}/delete', [AdminController:: class, 'destroy_payment'])->name('admin.payment.delete');
+Route::get('/admin/order/{id}/edit', [AdminController:: class, 'edit_order'])->name('admin.order.edit');
+Route::put('/admin/order/{id}/update', [AdminController::class, 'update_order'])->name('admin.order.update');
+Route::delete('/admin/order/{id}/delete', [AdminController:: class, 'destroy_order'])->name('admin.order.delete');
 
 
 Route::get('/dashboard', function () {
     return view('admin.home_dashboard');
 });
-
-Route::get('/order-masuk/{id}/detail', [OrderController::class, 'orderMasukDetail']);
-Route::get('/order-masuk', [OrderController::class, 'orderMasuk']);
-
-Route::get('/order-masuk/{id}/edit', [OrderController::class, 'editOrder']);
-Route::put('/order-masuk/{id}/update', [OrderController::class, 'updateOrder']);
-
-Route::get('/order-masuk/{id}/delete', [OrderController::class, 'deleteOrder'])->name('admin.order.index');
-
-Route::put('/order-masuk/{id}/update-detail', [OrderController::class, 'updateOrderDetail']);
-
-Route::post('/order-masuk/add-item', [OrderController::class, 'addItem'])->name('addItem');
-
-Route::get('/order-masuk/{id}/delete-detail', [OrderController::class, 'deleteOrderDetail'])->name('admin.order.edit');

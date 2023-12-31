@@ -11,11 +11,11 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-          </li>
+          </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="#">Orders</a>
+            <a class="nav-link" href="/admin/order">Orders</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/menu">Menu</a>
@@ -24,7 +24,7 @@
             <a class="nav-link" href="/admin/payment">Payment</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Reservations</a>
+            <a class="nav-link" href="/admin/reserve_adm">Reservations</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

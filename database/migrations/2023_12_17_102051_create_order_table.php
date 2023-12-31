@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('name');
             $table->integer('total_order');
-            $table->bigInteger('total_amount');
-            $table->integer('total_payment_method')->nullable()->change();
+            $table->integer('total_amount');
             $table->timestamps();
 
             $table->foreign('order_number')->references('id')->on('order_detail');
